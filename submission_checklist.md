@@ -34,6 +34,7 @@
 - [x] BSD-3-Clause project license and upstream attribution included.
 - [x] At least ten non-trivial architectural decisions documented.
 - [ ] README contains API examples, compatibility table, and exact limitations.
-- [ ] Demo script and under-five-minute video completed.
+- [x] Under-five-minute live-evidence demo script completed.
+- [ ] Demo video recorded, rendered, and verified under five minutes.
 - [ ] Devfolio/project submission completed before 2026-08-04 02:00 Beijing.
 - [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.

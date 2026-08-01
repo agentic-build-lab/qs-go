@@ -8,7 +8,8 @@
 - [x] Port code started after the official kickoff.
 - [x] Exact upstream commit and four original-test SHA-256 values recorded.
 - [x] Original upstream baseline passes 1045/1045 assertions.
-- [ ] Public repository URL added before submission.
+- [x] Public repository published at
+      `https://github.com/agentic-build-lab/qs-go`.
 
 ## Functionality and reliability
 

@@ -1,4 +1,4 @@
-# Demo script — target 4:35
+# Demo script — target 4:40
 
 The recording must show live commands and legible evidence. Do not imply that
 all 1,045 JavaScript assertions run directly against Go; state the exact tested
@@ -90,10 +90,11 @@ Scroll `DECISIONS.md` and call out three choices:
 2. `arrayLimit` as a representation boundary, not silent truncation;
 3. Node isolated to the development oracle, never the release path.
 
-## 4:20–4:35 — Close
+## 4:20–4:40 — Close
 
 Show `submission_checklist.md`.
 
-> qs-go is a standalone, reproducible Go port with a typed API, a clean build,
-> hash-verified differential evidence, one fuzzer-discovered compatibility fix,
-> and explicit limitations. The remaining work is visible rather than hidden.
+> qs-go is a standalone Go port with a typed API, clean build, frozen oracle,
+> over half a million zero-difference comparisons, a fuzzer-discovered fix, and
+> an honest benchmark. Every important claim has a command, hash, or ledger
+> entry behind it. Reproduce it.

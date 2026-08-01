@@ -1,10 +1,14 @@
 # Clean build evidence
 
 Verified on 2026-08-01 from Git commit
-`32f7ec41f69fbfa5a8e5e648ef7aa5f7a80cfca1`.
+`6a387db55f944bde3793ea1dc02be329778c0ec8` and release tree
+`91843cbe4d32ee5bfb3f564028841353b95fff02`.
 
-1. `git archive` created a source ZIP from `HEAD`, excluding every untracked and
-   ignored file.
+1. `git archive HEAD^{tree}` created a source ZIP from the committed release
+   tree, excluding every untracked file and this evidence file via
+   `.gitattributes export-ignore`. Archiving the tree object avoids embedding a
+   commit-ID comment, so an evidence-only follow-up commit cannot change the
+   release archive bytes.
 2. The ZIP was expanded into a new empty directory.
 3. Go built `./cmd/qsgo` from that extracted module using `-trimpath`.
 4. The resulting executable reported the frozen upstream identity, parsed the
@@ -15,7 +19,7 @@ Verified on 2026-08-01 from Git commit
 Evidence hashes:
 
 - Source archive SHA-256:
-  `7ADB9E4937FED3802F49086760687D7C695F423F0DB20C733E416FB50B069484`
+  `AF8CFA42715BEA80A18B69AC56C6891A7CC370E693F73DAC4CBBAAF9A5D59E6D`
 - Windows amd64 executable SHA-256:
   `DA317AFB2398E1C2EC05681BC6E30F69BEC80F17CC7BCD6AF31EC83D92FF9446`
 

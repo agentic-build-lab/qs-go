@@ -12,9 +12,10 @@ testing against the frozen JavaScript oracle, and an API that never requires
 ## Status
 
 Work began during the official competition window. The frozen upstream suite
-passes `1045/1045` assertions locally. The typed value model and option surface
-are in place; parser, stringifier, oracle harness, benchmarks, and compatibility
-ledger are being implemented incrementally.
+passes `1045/1045` assertions locally. The typed parser and stringifier, a
+standalone CLI, a hash-verifying Node oracle, and an initial differential test
+are implemented. Full tagged-value fuzzing, benchmarks, and the exhaustive
+compatibility ledger remain in progress; no current claim implies 100% parity.
 
 ## Design constraints
 
@@ -38,3 +39,32 @@ The competition toolchain is project-local. From this directory:
 
 See `PROVENANCE.md`, `DECISIONS.md`, and `testdata/oracle/oracle_manifest.json`
 for the evidence trail.
+
+## CLI smoke test
+
+The release artifact is a standalone Go executable; Node is used only by the
+development-time oracle. On any machine with Go installed:
+
+```bash
+make verify
+```
+
+Without `make`:
+
+```bash
+go build -trimpath -o bin/qsgo ./cmd/qsgo
+./bin/qsgo parse 'a%5Bb%5D=c&list%5B%5D=1&list%5B%5D=2'
+./bin/qsgo normalize 'a%5Bb%5D=c&list%5B%5D=1&list%5B%5D=2'
+```
+
+Windows one-command build (the policy override applies only to this process):
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1
+```
+
+Expected parse output:
+
+```json
+{"a":{"b":"c"},"list":["1","2"]}
+```

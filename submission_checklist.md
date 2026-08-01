@@ -12,16 +12,16 @@
 
 ## Functionality and reliability
 
-- [ ] `Parse` P0/P1 behavior implemented and tested.
-- [ ] `Stringify` P0/P1 behavior implemented and tested.
-- [ ] CLI builds into a standalone executable in one command.
+- [x] `Parse` P0/P1 behavior implemented and tested.
+- [x] `Stringify` P0/P1 behavior implemented and tested.
+- [x] CLI builds into a standalone executable in one command.
 - [ ] Original-suite adapter reports an honest per-file parity rate.
-- [ ] `go test ./... -count=1` passes.
+- [x] `go test ./... -count=1` passes.
 - [ ] `go test -race ./... -count=1` passes.
 
 ## Behavioral evidence
 
-- [ ] Frozen Node oracle verifies the commit, test tree, and file hashes.
+- [x] Frozen Node oracle verifies the commit, test tree, and file hashes.
 - [ ] Differential harness runs for at least 60 continuous seconds.
 - [ ] Public fuzz log records seed, case count, duration, and zero divergences or
       lists every known divergence honestly.

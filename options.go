@@ -109,7 +109,7 @@ func DefaultParseOptions() ParseOptions {
 	}
 }
 
-// StringifyOptions models deterministic qs output without interface{} hooks.
+// StringifyOptions models deterministic qs output without dynamic escape-hatch hooks.
 // Typed callback extension points will be added with the differential harness.
 type StringifyOptions struct {
 	AddQueryPrefix     BoolOption

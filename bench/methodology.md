@@ -37,5 +37,23 @@ a fast mismatching result is recorded as a correctness failure, not a benchmark.
 & '..\toolchain_complete\go\bin\go.exe' test -run '^$' -bench . -benchmem -count 10
 ```
 
-The final `results.json` will contain machine-readable raw samples and summary
-statistics. This file intentionally makes no performance claim before that run.
+## Recorded result
+
+The committed `results.json` contains the sequential run recorded on
+2026-08-01. Each latency distribution contains 40 samples of 500 operations.
+Cold start uses 40 independent processes that each parse one nested query.
+Peak Working Set is polled externally every 10 ms for both runtimes.
+
+The result is deliberately mixed rather than uniformly flattering:
+
+- Flat parse median is 5.1% faster in Go, while its p99 is 4.9% slower.
+- Nested parse median is 0.9% slower and p99 is 6.3% slower in Go.
+- Flat stringify median is 39.1% faster and p99 is 34.4% faster in Go.
+- Nested stringify median is 53.1% faster and p99 is 43.9% faster in Go.
+- Go cold-start median is 20.6 ms versus 106.7 ms for Node.
+- Polled peak Working Set is 29.9 MB for Go versus 78.1 MB for Node, a 61.7%
+  reduction on this host.
+
+Those figures are host-specific. Raw runtime counters are retained in
+`results.json`, including the metrics that are not directly comparable across
+garbage collectors.

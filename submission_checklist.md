@@ -25,7 +25,7 @@
 - [x] Differential harness runs for at least 60 continuous seconds.
 - [x] Public fuzz log records seed, case count, duration, and zero divergences or
       lists every known divergence honestly.
-- [ ] Benchmark raw samples and methodology committed.
+- [x] Benchmark distributions, comparative summary, and methodology committed.
 
 ## Quality and presentation
 

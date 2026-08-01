@@ -1,0 +1,78 @@
+{
+  "schema": "qs_go_comparative_benchmark/v1",
+  "recorded_at": "2026-08-01T08:47:27.9187262Z",
+  "host": {
+    "os": "windows",
+    "architecture": "amd64",
+    "logical_cpus": 32
+  },
+  "method": {
+    "latency_samples": 40,
+    "iterations_per_sample": 500,
+    "startup_samples": 40,
+    "peak_working_set_poll_interval_ms": 10,
+    "processes_measured_sequentially": true
+  },
+  "runtimes": {
+    "original": {
+      "name": "ljharb/qs",
+      "runtime": "node v24.11.1",
+      "commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+      "peak_working_set_bytes": 78143488,
+      "rss_before_bytes": 60100608,
+      "rss_after_bytes": 76693504,
+      "startup": {
+        "median_ms": 106.7318,
+        "p95_ms": 126.0296,
+        "p99_ms": 130.6272,
+        "minimum_ms": 88.9573,
+        "maximum_ms": 130.6272
+      },
+      "workloads": {
+        "parse_flat_100": { "median_ns": 90419.8, "p95_ns": 97679.0, "p99_ns": 100331.6 },
+        "parse_nested_20": { "median_ns": 35530.4, "p95_ns": 40450.2, "p99_ns": 42058.6 },
+        "stringify_flat_100": { "median_ns": 33911.0, "p95_ns": 37800.0, "p99_ns": 44326.0 },
+        "stringify_nested_20": { "median_ns": 16480.4, "p95_ns": 19387.4, "p99_ns": 19991.8 }
+      }
+    },
+    "port": {
+      "name": "qs-go",
+      "runtime": "go1.26.5",
+      "peak_working_set_bytes": 29945856,
+      "heap_alloc_before_bytes": 685232,
+      "heap_alloc_after_bytes": 1305232,
+      "total_alloc_delta_bytes": 7038339992,
+      "startup": {
+        "median_ms": 20.5553,
+        "p95_ms": 25.5007,
+        "p99_ms": 37.8869,
+        "minimum_ms": 16.1858,
+        "maximum_ms": 37.8869
+      },
+      "workloads": {
+        "parse_flat_100": { "median_ns": 85818.4, "p95_ns": 100618.8, "p99_ns": 105283.8 },
+        "parse_nested_20": { "median_ns": 35850.0, "p95_ns": 42609.8, "p99_ns": 44724.0 },
+        "stringify_flat_100": { "median_ns": 20658.4, "p95_ns": 24554.8, "p99_ns": 29059.8 },
+        "stringify_nested_20": { "median_ns": 7737.6, "p95_ns": 9026.2, "p99_ns": 11207.4 }
+      }
+    }
+  },
+  "port_vs_original": {
+    "negative_change_means_port_is_faster_or_smaller": true,
+    "peak_working_set_change_percent": -61.678,
+    "startup_median_ratio": 0.192588,
+    "startup_p99_ratio": 0.290038,
+    "workloads": {
+      "parse_flat_100": { "median_change_percent": -5.089, "p99_change_percent": 4.936 },
+      "parse_nested_20": { "median_change_percent": 0.900, "p99_change_percent": 6.337 },
+      "stringify_flat_100": { "median_change_percent": -39.081, "p99_change_percent": -34.441 },
+      "stringify_nested_20": { "median_change_percent": -53.050, "p99_change_percent": -43.940 }
+    }
+  },
+  "limitations": [
+    "Microbenchmark results are host-specific and were collected in one sequential session.",
+    "Peak Working Set was polled externally every 10 ms for both processes; very short spikes may be missed.",
+    "Go TotalAlloc is cumulative allocation traffic and is not directly comparable to Node heap-used snapshots.",
+    "The benchmark does not override correctness: every workload is represented in the differential test corpus."
+  ]
+}

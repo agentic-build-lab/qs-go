@@ -1,0 +1,25 @@
+qs-go differential fuzz report
+
+Scope: stage-one JSON-compatible dense values and the 16 parse / 12 stringify
+profiles implemented by internal/differential. This is not a claim that
+JavaScript-only tagged values or all callback options have been covered.
+
+Command:
+  go run ./cmd/differential_fuzz -duration 60s -min-cases 10000 -seed 0x5153474f
+
+Result:
+{
+  "schema": "qs_go_differential_report/v1",
+  "seed_hex": "0x5153474f",
+  "started_at": "2026-08-01T08:41:00.8717219Z",
+  "finished_at": "2026-08-01T08:42:00.8720553Z",
+  "duration_ms": 60000,
+  "total_cases": 558324,
+  "parse_cases": 279162,
+  "stringify_cases": 279162,
+  "mismatches": 0,
+  "oracle_errors": 0,
+  "go_errors": 0,
+  "upstream_commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+  "upstream_test_tree": "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+}

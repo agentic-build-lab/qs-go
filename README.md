@@ -68,3 +68,18 @@ Expected parse output:
 ```json
 {"a":{"b":"c"},"list":["1","2"]}
 ```
+
+## Differential evidence
+
+The stage-one deterministic harness compares this port with the hash-verified
+JavaScript oracle through one long-lived NDJSON process:
+
+```bash
+go run ./cmd/differential_fuzz -duration 60s -min-cases 10000 -seed 0x5153474f
+```
+
+The recorded run completed 558,324 cases in 60,000 ms with zero mismatches and
+zero execution errors, split evenly between parse and stringify. See
+`fuzz/log.txt`. Its scope is explicitly limited to JSON-compatible dense values;
+the compatibility ledger lists JavaScript-only tagged values and callbacks that
+are not yet covered.

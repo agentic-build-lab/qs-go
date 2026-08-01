@@ -22,8 +22,8 @@
 ## Behavioral evidence
 
 - [x] Frozen Node oracle verifies the commit, test tree, and file hashes.
-- [ ] Differential harness runs for at least 60 continuous seconds.
-- [ ] Public fuzz log records seed, case count, duration, and zero divergences or
+- [x] Differential harness runs for at least 60 continuous seconds.
+- [x] Public fuzz log records seed, case count, duration, and zero divergences or
       lists every known divergence honestly.
 - [ ] Benchmark raw samples and methodology committed.
 

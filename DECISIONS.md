@@ -31,3 +31,39 @@ untrusted input.
 Plain JSON cannot preserve sparse holes, `undefined`, negative zero, invalid
 UTF-16 surrogates, or reference identity. The oracle protocol therefore uses
 tagged values and an explicit handshake that rejects an altered upstream tree.
+
+## 2026-08-01 — Keep the Node oracle outside the release path
+
+Node.js is permitted only as a development-time differential oracle. The Go
+library and CLI build and run without Node, JavaScript, cgo, subprocess calls,
+or a source-language runtime. Oracle tests are isolated so a release artifact
+cannot silently fall back to the original implementation.
+
+## 2026-08-01 — Parse bracket paths with a balanced scanner
+
+The upstream accepts nested brackets inside a single key segment and preserves
+unclosed suffixes in specific ways. A regular expression split is shorter but
+cannot reproduce those cases. The parser therefore uses an explicit balanced
+scanner and records depth overflow as data unless strict-depth mode requests an
+error.
+
+## 2026-08-01 — Treat arrayLimit as a representation boundary
+
+An index at or beyond the upstream threshold changes an array into an ordered
+numeric-key object; it does not truncate the value. The port models that
+conversion directly and keeps a separate resource budget for denial-of-service
+protection. This avoids a tempting but incompatible hard-limit interpretation.
+
+## 2026-08-01 — Reproduce prototype-key filtering in Go
+
+Go objects cannot suffer JavaScript prototype mutation, but callers can observe
+whether keys such as `constructor` and `toString` survive parsing. The port keeps
+the upstream filtering policy for behavioral equivalence and always rejects
+`__proto__` path segments even when prototype names are otherwise enabled.
+
+## 2026-08-01 — Prefer standard-library core code
+
+The parser and stringifier use the Go standard library only. This reduces the
+supply-chain surface, keeps the one-command build offline, and makes benchmark
+results attributable to the port rather than a third-party URL codec. Test-only
+oracle dependencies remain frozen with hashes and never enter the binary.

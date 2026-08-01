@@ -78,8 +78,9 @@ JavaScript oracle through one long-lived NDJSON process:
 go run ./cmd/differential_fuzz -duration 60s -min-cases 10000 -seed 0x5153474f
 ```
 
-The recorded run completed 558,324 cases in 60,000 ms with zero mismatches and
-zero execution errors, split evenly between parse and stringify. See
-`fuzz/log.txt`. Its scope is explicitly limited to JSON-compatible dense values;
-the compatibility ledger lists JavaScript-only tagged values and callbacks that
-are not yet covered.
+The final recorded run completed 564,651 cases in 60,000 ms with zero
+mismatches and zero execution errors across 32 parse and 24 stringify profiles.
+See `fuzz/log.txt`. The expanded pre-run first found and fixed a real JavaScript
+integer-property ordering mismatch. Scope remains explicitly limited to
+JSON-compatible dense values; the compatibility ledger lists JavaScript-only
+tagged values and callbacks that are not yet covered.

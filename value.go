@@ -3,6 +3,8 @@ package qsgo
 import (
 	"errors"
 	"math/big"
+	"sort"
+	"strconv"
 	"time"
 )
 
@@ -92,6 +94,7 @@ func NewObject(members ...Member) Value {
 	for _, member := range members {
 		result.setMember(member.Key, member.Value)
 	}
+	result.orderJavaScriptProperties()
 	return result
 }
 
@@ -190,4 +193,45 @@ func (value *Value) rebuildObjectIndex() {
 	for index, member := range value.objectValue {
 		value.objectIndex[member.Key] = index
 	}
+}
+
+func (value *Value) orderJavaScriptProperties() {
+	if value.kind != KindObject || len(value.objectValue) < 2 {
+		return
+	}
+	type indexedMember struct {
+		index  uint64
+		member Member
+	}
+	indexed := make([]indexedMember, 0, len(value.objectValue))
+	ordinary := make([]Member, 0, len(value.objectValue))
+	for _, member := range value.objectValue {
+		if index, ok := javascriptPropertyIndex(member.Key); ok {
+			indexed = append(indexed, indexedMember{index: index, member: member})
+		} else {
+			ordinary = append(ordinary, member)
+		}
+	}
+	if len(indexed) == 0 {
+		return
+	}
+	sort.Slice(indexed, func(left, right int) bool { return indexed[left].index < indexed[right].index })
+	ordered := make([]Member, 0, len(value.objectValue))
+	for _, item := range indexed {
+		ordered = append(ordered, item.member)
+	}
+	ordered = append(ordered, ordinary...)
+	value.objectValue = ordered
+	value.rebuildObjectIndex()
+}
+
+func javascriptPropertyIndex(key string) (uint64, bool) {
+	if key == "" || (len(key) > 1 && key[0] == '0') {
+		return 0, false
+	}
+	index, err := strconv.ParseUint(key, 10, 32)
+	if err != nil || index >= 1<<32-1 {
+		return 0, false
+	}
+	return index, true
 }

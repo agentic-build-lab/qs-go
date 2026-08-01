@@ -24,6 +24,27 @@ func TestObjectPreservesInsertionOrderAndReplacesInPlace(t *testing.T) {
 	}
 }
 
+func TestObjectUsesJavaScriptIntegerPropertyOrder(t *testing.T) {
+	value := NewObject(
+		Member{Key: "later", Value: NewString("ordinary-first")},
+		Member{Key: "3", Value: NewString("three")},
+		Member{Key: "1", Value: NewString("one")},
+		Member{Key: "01", Value: NewString("not-an-index")},
+		Member{Key: "4294967295", Value: NewString("outside-index-range")},
+	)
+	members, _ := value.Members()
+	keys := make([]string, len(members))
+	for index, member := range members {
+		keys[index] = member.Key
+	}
+	expected := []string{"1", "3", "later", "01", "4294967295"}
+	for index := range expected {
+		if keys[index] != expected[index] {
+			t.Fatalf("keys = %#v, want %#v", keys, expected)
+		}
+	}
+}
+
 func TestSparseArraySeparatesHoleUndefinedAndNull(t *testing.T) {
 	value := NewSparseArray(
 		Element{},

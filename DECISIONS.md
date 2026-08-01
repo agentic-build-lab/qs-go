@@ -67,3 +67,11 @@ The parser and stringifier use the Go standard library only. This reduces the
 supply-chain surface, keeps the one-command build offline, and makes benchmark
 results attributable to the port rather than a third-party URL codec. Test-only
 oracle dependencies remain frozen with hashes and never enter the binary.
+
+## 2026-08-01 — Reproduce JavaScript integer-property enumeration
+
+The expanded differential corpus found that an `arrayLimit` overflow inserted
+numeric keys as `3` then `1`, while JavaScript enumerated them as `1` then `3`.
+Ordered objects therefore use the ECMAScript-observable rule: canonical uint32
+indices below `4294967295` sort numerically before ordinary string keys, whose
+insertion order remains stable. Keys such as `01` and `4294967295` stay ordinary.

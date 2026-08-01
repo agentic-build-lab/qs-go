@@ -54,7 +54,7 @@
       "id": "fuzz.seeded_60_second_differential",
       "classification": "exact_within_declared_subset",
       "source": "fuzz/log.txt",
-      "evidence": "558324 deterministic cases in 60000 ms; 279162 parse and 279162 stringify; zero mismatches and zero execution errors"
+      "evidence": "564651 deterministic cases in 60000 ms across 32 parse and 24 stringify profiles; 282326 parse and 282325 stringify; zero mismatches and zero execution errors after fixing the discovered integer-property ordering regression"
     },
     {
       "id": "artifact.standalone_cli",

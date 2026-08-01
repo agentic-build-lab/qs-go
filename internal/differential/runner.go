@@ -193,7 +193,7 @@ func (generator *generator) word() string {
 
 func (generator *generator) parseCase(index int) parseCase {
 	left, middle, right := generator.word(), generator.word(), generator.word()
-	switch index % 16 {
+	switch index % 32 {
 	case 0:
 		return parseCase{query: "a=" + left + "&b=" + right, oracleOptions: json.RawMessage(`{}`)}
 	case 1:
@@ -231,9 +231,54 @@ func (generator *generator) parseCase(index int) parseCase {
 		return parseCase{query: "a=" + left + "%ZZ" + right + "&b=%E0%A4%A", oracleOptions: json.RawMessage(`{}`)}
 	case 14:
 		return parseCase{query: "toString=" + left + "&safe=" + right + "&a[__proto__]=x", oracleOptions: json.RawMessage(`{}`)}
-	default:
+	case 15:
 		policy := qsgo.DuplicatesLast
 		return parseCase{query: "a=" + left + "&a=" + middle + "&a=" + right, goOptions: &qsgo.ParseOptions{Duplicates: policy}, oracleOptions: json.RawMessage(`{"duplicates":"last"}`)}
+	case 16:
+		policy := qsgo.DuplicatesFirst
+		return parseCase{query: "a=" + left + "&a=" + middle + "&a=" + right, goOptions: &qsgo.ParseOptions{Duplicates: policy}, oracleOptions: json.RawMessage(`{"duplicates":"first"}`)}
+	case 17:
+		options := qsgo.ParseOptions{AllowSparse: qsgo.Bool(true)}
+		return parseCase{query: "a[2]=" + left + "&a[5]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"allowSparse":true}`)}
+	case 18:
+		options := qsgo.ParseOptions{ArrayLimit: qsgo.Int(2)}
+		return parseCase{query: "a[3]=" + left + "&a[1]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"arrayLimit":2}`)}
+	case 19:
+		options := qsgo.ParseOptions{ParseArrays: qsgo.Bool(false)}
+		return parseCase{query: "a[]=" + left + "&a[0]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"parseArrays":false}`)}
+	case 20:
+		options := qsgo.ParseOptions{AllowPrototypes: qsgo.Bool(true)}
+		return parseCase{query: "toString=" + left + "&a[hasOwnProperty]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"allowPrototypes":true}`)}
+	case 21:
+		options := qsgo.ParseOptions{AllowDots: qsgo.Bool(true), DecodeDotInKeys: qsgo.Bool(true)}
+		return parseCase{query: "name%252Eobj.first=" + left, goOptions: &options, oracleOptions: json.RawMessage(`{"allowDots":true,"decodeDotInKeys":true}`)}
+	case 22:
+		options := qsgo.ParseOptions{Charset: qsgo.CharsetISO88591}
+		return parseCase{query: "a=%A7&b=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"charset":"iso-8859-1"}`)}
+	case 23:
+		options := qsgo.ParseOptions{CharsetSentinel: qsgo.Bool(true)}
+		return parseCase{query: "utf8=%E2%9C%93&a=%C3%B8&b=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"charsetSentinel":true}`)}
+	case 24:
+		options := qsgo.ParseOptions{Charset: qsgo.CharsetISO88591, InterpretNumericEntities: qsgo.Bool(true)}
+		return parseCase{query: "a=%26%239786%3B", goOptions: &options, oracleOptions: json.RawMessage(`{"charset":"iso-8859-1","interpretNumericEntities":true}`)}
+	case 25:
+		options := qsgo.ParseOptions{StrictMerge: qsgo.Bool(false)}
+		return parseCase{query: "a[b]=" + left + "&a=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"strictMerge":false}`)}
+	case 26:
+		options := qsgo.ParseOptions{ParameterLimit: qsgo.FiniteLimit(2)}
+		return parseCase{query: "a=" + left + "&b=" + middle + "&c=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"parameterLimit":2}`)}
+	case 27:
+		options := qsgo.ParseOptions{Depth: qsgo.Int(0)}
+		return parseCase{query: "a[0]=" + left + "&a[1]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"depth":0}`)}
+	case 28:
+		return parseCase{query: "a%5B=" + left + "&a%5D=" + right, oracleOptions: json.RawMessage(`{}`)}
+	case 29:
+		return parseCase{query: "a[b[c[]]]=" + left, oracleOptions: json.RawMessage(`{}`)}
+	case 30:
+		return parseCase{query: "a==" + left + "=&b=" + right, oracleOptions: json.RawMessage(`{}`)}
+	default:
+		options := qsgo.ParseOptions{Comma: qsgo.Bool(true), StrictNullHandling: qsgo.Bool(true)}
+		return parseCase{query: "a=" + left + ",," + right + "&b", goOptions: &options, oracleOptions: json.RawMessage(`{"comma":true,"strictNullHandling":true}`)}
 	}
 }
 
@@ -246,7 +291,7 @@ func (generator *generator) stringifyCase(index int) stringifyCase {
 	options := (*qsgo.StringifyOptions)(nil)
 	oracleOptions := json.RawMessage(`{}`)
 
-	switch index % 12 {
+	switch index % 24 {
 	case 1:
 		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewObject(qsgo.Member{Key: "b", Value: qsgo.NewString(left)})})
 	case 3:
@@ -274,6 +319,60 @@ func (generator *generator) stringifyCase(index int) stringifyCase {
 		configured := qsgo.StringifyOptions{StrictNullHandling: qsgo.Bool(true)}
 		options = &configured
 		oracleOptions = json.RawMessage(`{"strictNullHandling":true}`)
+	case 12:
+		configured := qsgo.StringifyOptions{AddQueryPrefix: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"addQueryPrefix":true}`)
+	case 13:
+		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewObject(qsgo.Member{Key: "b", Value: qsgo.NewString(left)})})
+		configured := qsgo.StringifyOptions{Encode: qsgo.Bool(false)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"encode":false}`)
+	case 14:
+		value = qsgo.NewObject(qsgo.Member{Key: "a b", Value: qsgo.NewString("x y")})
+		configured := qsgo.StringifyOptions{EncodeValuesOnly: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"encodeValuesOnly":true}`)
+	case 15:
+		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewString("x y")})
+		configured := qsgo.StringifyOptions{Format: qsgo.FormatRFC1738}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"format":"RFC1738"}`)
+	case 16:
+		configured := qsgo.StringifyOptions{CharsetSentinel: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"charsetSentinel":true}`)
+	case 17:
+		value = qsgo.NewObject(qsgo.Member{Key: "currency", Value: qsgo.NewString("§")})
+		configured := qsgo.StringifyOptions{Charset: qsgo.CharsetISO88591}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"charset":"iso-8859-1"}`)
+	case 18:
+		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewNull()}, qsgo.Member{Key: "b", Value: qsgo.NewString(right)})
+		configured := qsgo.StringifyOptions{SkipNulls: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"skipNulls":true}`)
+	case 19:
+		value = qsgo.NewObject(qsgo.Member{Key: "empty", Value: qsgo.NewArray()})
+		configured := qsgo.StringifyOptions{AllowEmptyArrays: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"allowEmptyArrays":true}`)
+	case 20:
+		value = qsgo.NewObject(qsgo.Member{Key: "list", Value: qsgo.NewArray(qsgo.NewString(left))})
+		configured := qsgo.StringifyOptions{ArrayFormat: qsgo.ArrayFormatComma, CommaRoundTrip: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"arrayFormat":"comma","commaRoundTrip":true}`)
+	case 21:
+		value = qsgo.NewObject(qsgo.Member{Key: "name.obj", Value: qsgo.NewString(left)})
+		configured := qsgo.StringifyOptions{EncodeDotInKeys: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"encodeDotInKeys":true}`)
+	case 22:
+		configured := qsgo.StringifyOptions{Delimiter: ";"}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"delimiter":";"}`)
+	case 23:
+		value = qsgo.NewObject(qsgo.Member{Key: "enabled", Value: qsgo.NewBool(true)}, qsgo.Member{Key: "count", Value: qsgo.NewNumber(42)})
 	}
 
 	input, err := valueJSON(value)

@@ -15,6 +15,7 @@
 - [x] `Parse` P0/P1 behavior implemented and tested.
 - [x] `Stringify` P0/P1 behavior implemented and tested.
 - [x] CLI builds into a standalone executable in one command.
+- [x] Fresh `git archive` extraction builds and runs without untracked files.
 - [ ] Original-suite adapter reports an honest per-file parity rate.
 - [x] `go test ./... -count=1` passes.
 - [ ] `go test -race ./... -count=1` passes.

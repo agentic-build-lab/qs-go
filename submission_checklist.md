@@ -3,7 +3,8 @@
 ## Eligibility and provenance
 
 - [x] Registered as Chongxin Liu, solo entrant, China, age 22.
-- [x] Track F: JavaScript to Go.
+- [x] Track H (Open Pair): JavaScript to Go; public-source choice justified in
+      the README under the event's Open Pair rule.
 - [x] Source is a real BSD-3-Clause public repository.
 - [x] Port code started after the official kickoff.
 - [x] Exact upstream commit and four original-test SHA-256 values recorded.

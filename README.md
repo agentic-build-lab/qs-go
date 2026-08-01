@@ -9,6 +9,17 @@ equivalence, deterministic output, explicit resource limits, differential
 testing against the frozen JavaScript oracle, and an API that never requires
 `interface{}` or `any`.
 
+## Competition track and source choice
+
+This submission uses **Track H (Open Pair): JavaScript to Go**. The event FAQ
+allows Track H entrants to choose any defensible public repository when the
+choice is justified in the README. `ljharb/qs` is a strong migration target:
+it is a mature, BSD-3-Clause query-string codec with a large executable test
+baseline, deeply observable edge-case behavior, and meaningful cross-runtime
+representation problems. Those properties make behavioral equivalence
+measurable through frozen-source hashes, differential fuzzing, regression
+tests, and comparative benchmarks rather than a compile-only claim.
+
 ## Status
 
 Work began during the official competition window. The frozen upstream suite

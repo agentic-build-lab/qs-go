@@ -1,13 +1,13 @@
 {
   "schema": "qs_go_upstream_test_ledger/v1",
-  "phase": "oracle_stage_1",
+  "phase": "typed_core_and_oracle_stage_1",
   "upstream": {
     "commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
     "test_tree_sha1": "bef346f180a38793ec6d47e11f25f88a7eb579ca",
     "runtime_assertions_passed": 1045,
     "source_test_blocks": 311
   },
-  "coverage_model": "aggregate_stage_1; a later phase will map all 311 source test blocks individually",
+  "coverage_model": "high-risk P0/P1 behavior matrix plus deterministic differential corpus; this does not yet claim one-to-one coverage of all 311 source blocks",
   "implemented": [
     {
       "id": "oracle.manifest_identity",
@@ -37,6 +37,30 @@
       "classification": "exact",
       "source": "test/stringify.js:368",
       "evidence": "arrayFormat and encoding integration case"
+    },
+    {
+      "id": "parse.typed_core_matrix",
+      "classification": "adapted",
+      "source": "test/parse.js",
+      "evidence": "13 Go test functions covering 57 named P0/P1 scenarios; parser uses no dynamic escape-hatch type"
+    },
+    {
+      "id": "stringify.typed_core_matrix",
+      "classification": "adapted",
+      "source": "test/stringify.js",
+      "evidence": "21 Go test functions plus four array-format subtests; 81.7% statement coverage for the selected typed stringifier file set"
+    },
+    {
+      "id": "fuzz.seeded_60_second_differential",
+      "classification": "exact_within_declared_subset",
+      "source": "fuzz/log.txt",
+      "evidence": "558324 deterministic cases in 60000 ms; 279162 parse and 279162 stringify; zero mismatches and zero execution errors"
+    },
+    {
+      "id": "artifact.standalone_cli",
+      "classification": "adapted",
+      "source": "cmd/qsgo",
+      "evidence": "one-command Go build; parse and normalize smoke tests pass without Node at runtime"
     }
   ],
   "deferred": [
@@ -64,11 +88,6 @@
       "id": "coverage.full_311_block_mapping",
       "classification": "deferred",
       "reason": "stage one proves the frozen process and basic cases; full ledger expansion follows parser/stringifier implementation"
-    },
-    {
-      "id": "fuzz.seeded_60_second_differential",
-      "classification": "deferred",
-      "reason": "requires the Go parser and stringifier under test"
     }
   ]
 }

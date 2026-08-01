@@ -1,0 +1,32 @@
+{
+  "schema": "qs_go_oracle_manifest/v1",
+  "upstream": {
+    "repository": "https://github.com/ljharb/qs",
+    "commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+    "describe": "v6.15.3-8-g3a890d4",
+    "test_tree_sha1": "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+  },
+  "tests": [
+    {
+      "path": "test/empty-keys-cases.js",
+      "sha256": "9190f374bd3129f552289579ed9812944899b690b6feac065b55c2877a1e71ab"
+    },
+    {
+      "path": "test/parse.js",
+      "sha256": "7a658caf90053d617cf920d20d21e7449da52dce807a1e55ccb4fb0152d9c725"
+    },
+    {
+      "path": "test/stringify.js",
+      "sha256": "a1c6f1e35af7a35e027a3e391a9784a011c58086f93de400f32767bc79f529c8"
+    },
+    {
+      "path": "test/utils.js",
+      "sha256": "980f98ae1d2dacfdfc49191c58785ad49e9b1539807c60908bd7c0cd6e8f351b"
+    }
+  ],
+  "baseline": {
+    "assertions_passed": 1045,
+    "assertions_failed": 0,
+    "explicit_skips": 1
+  }
+}

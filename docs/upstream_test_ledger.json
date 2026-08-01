@@ -1,0 +1,74 @@
+{
+  "schema": "qs_go_upstream_test_ledger/v1",
+  "phase": "oracle_stage_1",
+  "upstream": {
+    "commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+    "test_tree_sha1": "bef346f180a38793ec6d47e11f25f88a7eb579ca",
+    "runtime_assertions_passed": 1045,
+    "source_test_blocks": 311
+  },
+  "coverage_model": "aggregate_stage_1; a later phase will map all 311 source test blocks individually",
+  "implemented": [
+    {
+      "id": "oracle.manifest_identity",
+      "classification": "exact",
+      "evidence": "Node verifies commit, describe, HEAD:test, and four SHA-256 digests before handshake"
+    },
+    {
+      "id": "parse.basic_json_compatible",
+      "classification": "exact",
+      "source": "test/parse.js:23",
+      "evidence": "long-lived NDJSON integration test"
+    },
+    {
+      "id": "parse.serializable_options",
+      "classification": "exact",
+      "source": "test/parse.js:49",
+      "evidence": "allowlisted built-in JSON options; option interaction integration case"
+    },
+    {
+      "id": "stringify.basic_json_compatible",
+      "classification": "exact",
+      "source": "test/stringify.js:14",
+      "evidence": "long-lived NDJSON integration test"
+    },
+    {
+      "id": "stringify.serializable_options",
+      "classification": "exact",
+      "source": "test/stringify.js:368",
+      "evidence": "arrayFormat and encoding integration case"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "wire.tagged_utf16_and_nonfinite_numbers",
+      "classification": "adapted",
+      "reason": "requires the tagged-value protocol"
+    },
+    {
+      "id": "wire.sparse_arrays_undefined_and_cycles",
+      "classification": "adapted",
+      "reason": "ordinary JSON cannot preserve holes, undefined, references, or cycles"
+    },
+    {
+      "id": "wire.bytes_dates_bigint_and_null_prototype_identity",
+      "classification": "adapted",
+      "reason": "requires explicit cross-runtime type tags"
+    },
+    {
+      "id": "options.callbacks_and_regexp_delimiter",
+      "classification": "adapted",
+      "reason": "requires a fixed callback registry; executable source and eval are prohibited"
+    },
+    {
+      "id": "coverage.full_311_block_mapping",
+      "classification": "deferred",
+      "reason": "stage one proves the frozen process and basic cases; full ledger expansion follows parser/stringifier implementation"
+    },
+    {
+      "id": "fuzz.seeded_60_second_differential",
+      "classification": "deferred",
+      "reason": "requires the Go parser and stringifier under test"
+    }
+  ]
+}

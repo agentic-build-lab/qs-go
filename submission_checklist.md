@@ -18,7 +18,8 @@
 - [x] Fresh `git archive` extraction builds and runs without untracked files.
 - [ ] Original-suite adapter reports an honest per-file parity rate.
 - [x] `go test ./... -count=1` passes.
-- [ ] `go test -race ./... -count=1` passes.
+- [ ] `go test -race ./... -count=1` passes (unavailable in the portable
+      Windows toolchain because cgo is disabled; limitation documented).
 
 ## Behavioral evidence
 
@@ -33,7 +34,7 @@
 - [x] Zero `any` / `interface{}` in the public value model.
 - [x] BSD-3-Clause project license and upstream attribution included.
 - [x] At least ten non-trivial architectural decisions documented.
-- [ ] README contains API examples, compatibility table, and exact limitations.
+- [x] README contains API examples, compatibility table, and exact limitations.
 - [x] Under-five-minute live-evidence demo script completed.
 - [ ] Demo video recorded, rendered, and verified under five minutes.
 - [ ] Devfolio/project submission completed before 2026-08-04 02:00 Beijing.

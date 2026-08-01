@@ -31,5 +31,6 @@ license are retained in `third_party/qs/LICENSE.md`.
 
 The verified-complete Go toolchain is stored outside this implementation
 directory at `../toolchain_complete/go` and is not part of a release artifact.
-An earlier interrupted extraction at `../toolchain/go` is retained only as
-diagnostic evidence and is never used by the build.
+An earlier interrupted extraction was removed after its failure mode was
+recorded in `../toolchain_extraction_diagnostic.md`; it is never used by the
+build.

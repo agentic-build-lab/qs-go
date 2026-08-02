@@ -1,5 +1,10 @@
 # qs-go
 
+[![verify](https://github.com/agentic-build-lab/qs-go/actions/workflows/verify.yml/badge.svg)](https://github.com/agentic-build-lab/qs-go/actions/workflows/verify.yml)
+
+Judges and reviewers can start with [`EVALUATION.md`](EVALUATION.md) for a
+one-page map from the scoring criteria to commands, evidence, and limits.
+
 `qs-go` is a clean-room Go port of the observable query-string behavior in
 [`ljharb/qs`](https://github.com/ljharb/qs), frozen at commit
 `3a890d4ecd3deb72a45d90be36f4f8c5970467c7` (`v6.15.3-8-g3a890d4`).
@@ -11,26 +16,33 @@ testing against the frozen JavaScript oracle, and an API that never requires
 
 ## Competition track and source choice
 
-This submission uses **Track H (Open Pair): JavaScript to Go**. The event FAQ
-allows Track H entrants to choose any defensible public repository when the
-choice is justified in the README. `ljharb/qs` is a strong migration target:
-it is a mature, BSD-3-Clause query-string codec with a large executable test
-baseline, deeply observable edge-case behavior, and meaningful cross-runtime
-representation problems. Those properties make behavioral equivalence
-measurable through frozen-source hashes, differential fuzzing, regression
-tests, and comparative benchmarks rather than a compile-only claim.
+This submission uses **Track H (Open Pair): JavaScript to Go**. The official
+[repository pool](https://coderesurrection.com/2026/repo-pool/) explicitly
+lists `ljharb/qs` for Track H. This project intentionally uses the Open Pair
+rather than treating the work as a CLI-only rewrite: a dynamic JavaScript data
+surface becomes a closed, type-safe Go API that can be embedded in Go services
+and shipped as a standalone binary.
+
+`ljharb/qs` is a strong migration target because it is a mature, BSD-3-Clause
+codec with a large executable baseline, deeply observable edge-case behavior,
+and representation problems that ordinary Go maps and slices erase. Frozen
+source hashes, differential fuzzing, regression tests, startup measurements,
+and memory evidence make that cross-runtime migration measurable rather than a
+compile-only claim.
 
 ## Status
 
 Work began during the official competition window. The frozen upstream suite
 passes `1045/1045` assertions locally. The typed parser and stringifier, a
 standalone CLI, a hash-verifying Node oracle, and deterministic differential
-harness are implemented. The final recorded stage-one run completed 564,651
+harness are implemented. The final recorded stage-one run completed 672,321
 comparisons with zero differences after first finding and fixing a real integer
-property-ordering mismatch. Comparative benchmarks and an explicit
-compatibility ledger are included. Tagged cross-runtime values and exhaustive
-one-to-one upstream block mapping remain deferred; no current claim implies
-100% parity.
+property-ordering mismatch. A final evidence audit also found and removed a
+parity bias in the corpus scheduler; runner-level tests now prove all 32 parse
+and 24 stringify templates are reachable. Comparative benchmarks and an
+explicit compatibility ledger are included. Tagged cross-runtime values and
+exhaustive one-to-one upstream block mapping remain deferred; no current claim
+implies 100% parity.
 
 ## Design constraints
 
@@ -45,24 +57,41 @@ one-to-one upstream block mapping remain deferred; no current claim implies
 
 ## Local commands
 
-The competition toolchain is project-local. From this directory:
+With Go 1.26 or later installed, run from this directory:
 
 ```powershell
-& '..\toolchain_complete\go\bin\go.exe' test ./... -count=1
-& '..\toolchain_complete\go\bin\go.exe' vet ./...
+go test ./... -count=1
+go vet ./...
 ```
 
 The portable Windows toolchain has cgo disabled, so `go test -race` is not
 available in this environment. This is recorded as an evidence limitation,
 not presented as a passing check.
 
-See `PROVENANCE.md`, `DECISIONS.md`, and `testdata/oracle/oracle_manifest.json`
-for the evidence trail.
+The default `go test ./...` path is pure Go and is safe for a fresh clone. The
+development-only Node oracle integration is opt-in because its hash-verified
+upstream fixture is intentionally excluded from the release. To run it, place
+the frozen `ljharb/qs` checkout at `../upstream_qs`, including its installed
+test dependencies, and set `QSGO_RUN_ORACLE_TESTS=1`:
+
+```powershell
+$env:QSGO_RUN_ORACLE_TESTS = '1'
+go test ./internal/differential -run '^TestFrozenOracleHandshakeAndBasicCases$' -count=1
+Remove-Item Env:QSGO_RUN_ORACLE_TESTS
+```
+
+On shells supported by Make, the equivalent command is `make oracle-test`.
+Opting in without the required fixture fails with its expected absolute path;
+the test never downloads source or dependencies.
+
+See `PROVENANCE.md`, `DECISIONS.md`, `internal/oracle/README.md`, and
+`testdata/oracle/oracle_manifest.json` for the evidence trail.
 
 ## CLI smoke test
 
 The release artifact is a standalone Go executable; Node is used only by the
-development-time oracle. On any machine with Go installed:
+explicitly enabled development-time oracle. On any machine with Go installed,
+the default verification path remains pure Go:
 
 ```bash
 make verify
@@ -135,9 +164,10 @@ query, err := qsgo.Stringify(value, &options)
 | Surface | Status | Evidence |
 | --- | --- | --- |
 | Frozen upstream identity | Exact | Commit, test-tree hash, and four source hashes verified before oracle handshake |
-| JSON-compatible parsing | High-risk P0/P1 implemented | 57 named parser scenarios plus differential profiles |
-| JSON-compatible stringifying | High-risk P0/P1 implemented | 21 test functions, four array-format subtests, and 81.7% selected-file coverage |
-| Declared dense-value differential subset | Exact within scope | 564,651 deterministic comparisons; zero final mismatches or execution errors |
+| JSON-compatible parsing | High-risk P0/P1 implemented | 57 named parser scenarios plus 32 scheduled differential templates |
+| JSON-compatible stringifying | High-risk P0/P1 implemented | 21 test functions, four array-format subtests, and 24 scheduled differential templates |
+| Current root package coverage | Measured | 81.5% statement coverage via `go test . -cover -count=1` |
+| Declared dense-value differential subset | Exact within scope | 672,321 deterministic comparisons; zero final mismatches or execution errors |
 | Standalone release path | Implemented | Clean `git archive` build; no Node, cgo, subprocess, or third-party runtime in the binary path |
 | Sparse holes and explicit `undefined` in the typed API | Represented | Closed `Value` algebra distinguishes holes, undefined, and null |
 | Tagged UTF-16, non-finite values, cycles, and reference identity over the oracle wire | Deferred | Requires the tagged-value protocol expansion |
@@ -149,8 +179,9 @@ query, err := qsgo.Stringify(value, &options)
 - The original `1045/1045` result is the frozen JavaScript baseline. Those
   assertions do not run directly against the Go package.
 - The zero-difference fuzz result covers the declared JSON-compatible dense
-  subset and 32 parse / 24 stringify option profiles, not every JavaScript-only
-  value or callback behavior.
+  subset and 32 scheduled parse / 24 scheduled stringify templates, not every
+  JavaScript-only value or callback behavior. Sparse-array semantics are tested
+  in Go but remain outside the ordinary-JSON oracle wire.
 - The compatibility ledger is risk-prioritized and does not yet map every one
   of the 311 upstream source test blocks.
 - Benchmark results are host-specific, sequential, and subordinate to
@@ -168,23 +199,37 @@ JavaScript oracle through one long-lived NDJSON process:
 go run ./cmd/differential_fuzz -duration 60s -min-cases 10000 -seed 0x5153474f
 ```
 
-The final recorded run completed 564,651 cases in 60,000 ms with zero
-mismatches and zero execution errors across 32 parse and 24 stringify profiles.
-See `fuzz/log.txt`. The expanded pre-run first found and fixed a real JavaScript
-integer-property ordering mismatch. Scope remains explicitly limited to
-JSON-compatible dense values; the compatibility ledger lists JavaScript-only
-tagged values and callbacks that are not yet covered.
+The final recorded run completed 672,321 cases in 60,000 ms: 336,161 parse and
+336,160 stringify comparisons, with zero mismatches and zero execution errors.
+Runner-level tests prove all 32 scheduled parse and 24 scheduled stringify
+templates are reachable. See `fuzz/report.json` for the machine-readable result
+and `fuzz/log.txt` for scope and audit notes. The expanded pre-run first found
+and fixed a real JavaScript integer-property ordering mismatch. Scope remains
+explicitly limited to JSON-compatible dense values; the compatibility ledger
+lists JavaScript-only tagged values and callbacks that are not yet covered.
 
 ## Benchmark summary
 
-The paired run in `bench/results.json` used 40 latency samples of 500
-iterations and 40 independent cold starts per runtime. Compared with Node
-v24.11.1 on the recorded Windows host:
+The historical aggregate record in `bench/results.json` reports a configuration
+of 40 sequential latency batches of 500 iterations and 40 independent cold
+starts per runtime. Compared with Node v24.11.1 on the recorded Windows host:
 
 - parse median was broadly at parity; parse p99 was 4.9% to 6.3% slower;
 - stringify median was 39.1% to 53.1% faster;
 - cold-start median was 20.6 ms versus 106.7 ms;
 - externally polled peak Working Set was 29.9 MB versus 78.1 MB.
 
-See `bench/methodology.md` and `bench/results.json` for the complete method,
-distributions, and limitations.
+The historical run did not retain individual latency samples, cold-start
+durations, or the Working Set polling series; those values have not been
+reconstructed. A read-only prerequisite and provenance check for the new raw
+evidence runner is available on Windows:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File .\bench\run_benchmark.ps1 -Mode validate
+```
+
+A new full record uses `-Mode record`, writes a self-contained v2 artifact
+below the ignored `work/` directory, and never overwrites the historical file.
+See `bench/methodology.md` and `bench/results.json` for the exact method,
+aggregate statistics, and limitations.

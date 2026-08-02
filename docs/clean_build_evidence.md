@@ -23,7 +23,11 @@ Evidence hashes:
 - Windows amd64 executable SHA-256:
   `DA317AFB2398E1C2EC05681BC6E30F69BEC80F17CC7BCD6AF31EC83D92FF9446`
 
-The clean extraction also passed `go test ./... -count=1` and `go vet ./...`.
-A public-artifact scan of the extracted tree found zero secret-pattern files,
-zero personal-email files, and zero Go files containing the prohibited dynamic
-escape-hatch patterns used by this project audit.
+The recorded clean extraction also passed `go test ./... -count=1` and
+`go vet ./...` in the verification environment, where the frozen upstream
+fixture was available to the development-time oracle integration. The fixture
+is not shipped in the release. The current default test path is pure Go, and
+`README.md` records the explicit opt-in oracle command. A public-artifact scan
+of the extracted tree found zero secret-pattern files, zero personal-email
+files, and zero Go files containing the prohibited dynamic escape-hatch
+patterns used by this project audit.

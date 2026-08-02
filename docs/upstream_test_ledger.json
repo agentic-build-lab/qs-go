@@ -48,13 +48,19 @@
       "id": "stringify.typed_core_matrix",
       "classification": "adapted",
       "source": "test/stringify.js",
-      "evidence": "21 Go test functions plus four array-format subtests; 81.7% statement coverage for the selected typed stringifier file set"
+      "evidence": "21 Go test functions plus four array-format subtests; current root package statement coverage is 81.5% via go test . -cover -count=1"
+    },
+    {
+      "id": "parse.sparse_array_semantics",
+      "classification": "adapted",
+      "source": "test/parse.js",
+      "evidence": "Go unit scenarios verify default sparse-index compaction and AllowSparse hole preservation; this behavior is intentionally outside the ordinary-JSON differential wire"
     },
     {
       "id": "fuzz.seeded_60_second_differential",
       "classification": "exact_within_declared_subset",
       "source": "fuzz/log.txt",
-      "evidence": "564651 deterministic cases in 60000 ms across 32 parse and 24 stringify profiles; 282326 parse and 282325 stringify; zero mismatches and zero execution errors after fixing the discovered integer-property ordering regression"
+      "evidence": "672321 deterministic cases in 60000 ms; 336161 parse and 336160 stringify; all 32 scheduled parse and 24 scheduled stringify templates are reachable; zero mismatches and zero execution errors after fixing the discovered integer-property ordering regression and auditing scheduler reachability"
     },
     {
       "id": "artifact.standalone_cli",

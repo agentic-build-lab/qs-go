@@ -1,10 +1,11 @@
 qs-go differential fuzz report
 
-Scope: stage-one JSON-compatible dense values and the 32 parse / 24 stringify
-profiles implemented by internal/differential. This is not a claim that
-JavaScript-only tagged values or all callback options have been covered.
+Scope: the declared JSON-compatible dense-value subset and the 32 scheduled
+parse / 24 scheduled stringify templates implemented by
+internal/differential. This is not a claim that JavaScript-only tagged values,
+executable callbacks, or every upstream source block have been covered.
 
-Regression found before the final run:
+Compatibility regression found before the recorded run:
   Input: a[3]=4zf&a[1]=ui_ir
   Options: {"arrayLimit":2}
   Original property order: {"1":"ui_ir","3":"4zf"}
@@ -13,7 +14,15 @@ Regression found before the final run:
 The expanded corpus exposed JavaScript's integer-property enumeration rule.
 The typed object constructor now sorts canonical uint32 property indices while
 preserving insertion order for ordinary keys. A dedicated regression test was
-added before the final run below.
+added before the recorded run below.
+
+Evidence-harness regression found during final audit:
+  The combined runner alternated operations while passing its global case
+  index into each generator. That parity bias reached only half of the intended
+  parse and stringify schedules in the earlier report. The runner now uses an
+  operation-local index; tests prove all 32 parse and 24 stringify templates
+  are reachable, and all 24 stringify input/option templates are distinct.
+  The superseded 564,651-case report is not used as final evidence.
 
 Command:
   go run ./cmd/differential_fuzz -duration 60s -min-cases 10000 -seed 0x5153474f
@@ -22,12 +31,12 @@ Result:
 {
   "schema": "qs_go_differential_report/v1",
   "seed_hex": "0x5153474f",
-  "started_at": "2026-08-01T08:55:19.8196669Z",
-  "finished_at": "2026-08-01T08:56:19.8204508Z",
+  "started_at": "2026-08-02T11:52:30.9241427Z",
+  "finished_at": "2026-08-02T11:53:30.9245534Z",
   "duration_ms": 60000,
-  "total_cases": 564651,
-  "parse_cases": 282326,
-  "stringify_cases": 282325,
+  "total_cases": 672321,
+  "parse_cases": 336161,
+  "stringify_cases": 336160,
   "mismatches": 0,
   "oracle_errors": 0,
   "go_errors": 0,

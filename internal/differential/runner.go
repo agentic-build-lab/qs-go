@@ -89,31 +89,45 @@ func Run(parent context.Context, config Config) (Report, error) {
 
 	for time.Now().UTC().Before(deadline) {
 		index := report.TotalCases
+		caseIndex := operationCaseIndex(index)
 		if index%2 == 0 {
-			parseCase := generator.parseCase(index)
+			parseCase := generator.parseCase(caseIndex)
 			report.ParseCases++
+			report.TotalCases++
 			if failure := compareParse(parent, client, index, parseCase, &report); failure != nil {
 				report.FirstFailure = failure
 				report.Mismatches++
 				break
 			}
 		} else {
-			stringifyCase := generator.stringifyCase(index)
+			stringifyCase := generator.stringifyCase(caseIndex)
 			report.StringifyCases++
+			report.TotalCases++
 			if failure := compareStringify(parent, client, index, stringifyCase, &report); failure != nil {
 				report.FirstFailure = failure
 				report.Mismatches++
 				break
 			}
 		}
-		report.TotalCases++
 	}
 
 	finished := time.Now().UTC()
 	report.FinishedAt = finished.Format(time.RFC3339Nano)
 	report.DurationMillis = finished.Sub(started).Milliseconds()
+	if report.TotalCases != report.ParseCases+report.StringifyCases {
+		return report, fmt.Errorf(
+			"differential: report count invariant failed: total=%d parse=%d stringify=%d",
+			report.TotalCases,
+			report.ParseCases,
+			report.StringifyCases,
+		)
+	}
 	return report, nil
 }
+
+// operationCaseIndex gives each operation a contiguous template sequence even
+// though parse and stringify cases alternate in the combined report.
+func operationCaseIndex(totalCaseIndex int) int { return totalCaseIndex / 2 }
 
 type parseCase struct {
 	query         string
@@ -238,8 +252,8 @@ func (generator *generator) parseCase(index int) parseCase {
 		policy := qsgo.DuplicatesFirst
 		return parseCase{query: "a=" + left + "&a=" + middle + "&a=" + right, goOptions: &qsgo.ParseOptions{Duplicates: policy}, oracleOptions: json.RawMessage(`{"duplicates":"first"}`)}
 	case 17:
-		options := qsgo.ParseOptions{AllowSparse: qsgo.Bool(true)}
-		return parseCase{query: "a[2]=" + left + "&a[5]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"allowSparse":true}`)}
+		options := qsgo.ParseOptions{AllowDots: qsgo.Bool(true), Duplicates: qsgo.DuplicatesLast}
+		return parseCase{query: "a.b=" + left + "&a.b=" + right + "&a.c=" + middle, goOptions: &options, oracleOptions: json.RawMessage(`{"allowDots":true,"duplicates":"last"}`)}
 	case 18:
 		options := qsgo.ParseOptions{ArrayLimit: qsgo.Int(2)}
 		return parseCase{query: "a[3]=" + left + "&a[1]=" + right, goOptions: &options, oracleOptions: json.RawMessage(`{"arrayLimit":2}`)}
@@ -294,26 +308,58 @@ func (generator *generator) stringifyCase(index int) stringifyCase {
 	switch index % 24 {
 	case 1:
 		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewObject(qsgo.Member{Key: "b", Value: qsgo.NewString(left)})})
+	case 2:
+		value = qsgo.NewObject(qsgo.Member{Key: "list", Value: qsgo.NewArray(qsgo.NewString(left), qsgo.NewString(right))})
+		configured := qsgo.StringifyOptions{ArrayFormat: qsgo.ArrayFormatIndices}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"arrayFormat":"indices"}`)
 	case 3:
 		value = qsgo.NewObject(qsgo.Member{Key: "list", Value: qsgo.NewArray(qsgo.NewString(left), qsgo.NewString(right))})
 		configured := qsgo.StringifyOptions{ArrayFormat: qsgo.ArrayFormatBrackets}
 		options = &configured
 		oracleOptions = json.RawMessage(`{"arrayFormat":"brackets"}`)
+	case 4:
+		value = qsgo.NewObject(
+			qsgo.Member{Key: "null", Value: qsgo.NewNull()},
+			qsgo.Member{Key: "empty", Value: qsgo.NewString("")},
+			qsgo.Member{Key: "value", Value: qsgo.NewString(right)},
+		)
 	case 5:
 		value = qsgo.NewObject(qsgo.Member{Key: "list", Value: qsgo.NewArray(qsgo.NewString(left), qsgo.NewString(right))})
 		configured := qsgo.StringifyOptions{ArrayFormat: qsgo.ArrayFormatRepeat}
 		options = &configured
 		oracleOptions = json.RawMessage(`{"arrayFormat":"repeat"}`)
+	case 6:
+		value = qsgo.NewObject(qsgo.Member{Key: "a b", Value: qsgo.NewArray(qsgo.NewObject(
+			qsgo.Member{Key: "b", Value: qsgo.NewObject(
+				qsgo.Member{Key: "c", Value: qsgo.NewArray(qsgo.NewString(left), qsgo.NewString(right))},
+			)},
+		))})
+		configured := qsgo.StringifyOptions{EncodeValuesOnly: qsgo.Bool(true)}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"encodeValuesOnly":true}`)
 	case 7:
 		value = qsgo.NewObject(qsgo.Member{Key: "list", Value: qsgo.NewArray(qsgo.NewString(left), qsgo.NewString(right))})
 		configured := qsgo.StringifyOptions{ArrayFormat: qsgo.ArrayFormatComma}
 		options = &configured
 		oracleOptions = json.RawMessage(`{"arrayFormat":"comma"}`)
+	case 8:
+		configured := qsgo.StringifyOptions{AddQueryPrefix: qsgo.Bool(true), Delimiter: ";"}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"addQueryPrefix":true,"delimiter":";"}`)
 	case 9:
 		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewObject(qsgo.Member{Key: "b", Value: qsgo.NewString(left)})})
 		configured := qsgo.StringifyOptions{AllowDots: qsgo.Bool(true)}
 		options = &configured
 		oracleOptions = json.RawMessage(`{"allowDots":true}`)
+	case 10:
+		value = qsgo.NewObject(
+			qsgo.Member{Key: "a", Value: qsgo.NewNumber(1)},
+			qsgo.Member{Key: "b", Value: qsgo.NewNumber(2)},
+		)
+		configured := qsgo.StringifyOptions{CharsetSentinel: qsgo.Bool(true), Delimiter: ";"}
+		options = &configured
+		oracleOptions = json.RawMessage(`{"charsetSentinel":true,"delimiter":";"}`)
 	case 11:
 		value = qsgo.NewObject(qsgo.Member{Key: "a", Value: qsgo.NewNull()}, qsgo.Member{Key: "b", Value: qsgo.NewString(right)})
 		configured := qsgo.StringifyOptions{StrictNullHandling: qsgo.Bool(true)}

@@ -1,8 +1,9 @@
 # Demo script — target 4:40
 
-The recording must show live commands and legible evidence. Do not imply that
-all 1,045 JavaScript assertions run directly against Go; state the exact tested
-scope on screen.
+The final demo is a designed evidence walkthrough. Its command and output
+panels are faithful representations of the recorded artifacts, not a claim of
+live terminal capture. Do not imply that all 1,045 JavaScript assertions run
+directly against Go; state the exact tested scope on screen.
 
 ## 0:00–0:25 — The port and the proof target
 
@@ -48,8 +49,9 @@ show `fuzz/log.txt`:
 
 - exact upstream commit and test-tree hash;
 - 60,000 ms;
-- 564,651 total cases;
-- 32 parse and 24 stringify profiles;
+- 672,321 total cases: 336,161 parse and 336,160 stringify;
+- 32 scheduled parse and 24 scheduled stringify templates, with runner-level
+  reachability tests;
 - zero mismatches and zero execution errors.
 
 Narration:

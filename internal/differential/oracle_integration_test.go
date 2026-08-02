@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -15,8 +16,9 @@ import (
 )
 
 const (
-	expectedCommit   = "3a890d4ecd3deb72a45d90be36f4f8c5970467c7"
-	expectedTestTree = "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+	oracleTestEnvironment = "QSGO_RUN_ORACLE_TESTS"
+	expectedCommit        = "3a890d4ecd3deb72a45d90be36f4f8c5970467c7"
+	expectedTestTree      = "bef346f180a38793ec6d47e11f25f88a7eb579ca"
 )
 
 var expectedTestDigests = map[string]string{
@@ -28,6 +30,13 @@ var expectedTestDigests = map[string]string{
 
 func TestFrozenOracleHandshakeAndBasicCases(t *testing.T) {
 	moduleRoot := findModuleRoot(t)
+	if os.Getenv(oracleTestEnvironment) != "1" {
+		t.Skipf("set %s=1 to run the frozen Node oracle integration test", oracleTestEnvironment)
+	}
+	upstreamRoot := filepath.Join(moduleRoot, "..", "upstream_qs")
+	if _, err := os.Stat(filepath.Join(upstreamRoot, ".git")); err != nil {
+		t.Fatalf("%s=1 requires the frozen upstream checkout at %s: %v", oracleTestEnvironment, upstreamRoot, err)
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 

@@ -18,6 +18,8 @@
 - [x] `Stringify` P0/P1 behavior implemented and tested.
 - [x] CLI builds into a standalone executable in one command.
 - [x] Fresh `git archive` extraction builds and runs without untracked files.
+- [x] Default tests are pure-Go and fresh-clone safe; frozen Node oracle
+      verification is an explicit, documented opt-in.
 - [ ] Original-suite adapter reports an honest per-file parity rate.
 - [x] `go test ./... -count=1` passes.
 - [ ] `go test -race ./... -count=1` passes (unavailable in the portable
@@ -29,7 +31,10 @@
 - [x] Differential harness runs for at least 60 continuous seconds.
 - [x] Public fuzz log records seed, case count, duration, and zero divergences or
       lists every known divergence honestly.
-- [x] Benchmark distributions, comparative summary, and methodology committed.
+- [x] Historical aggregate benchmark, comparative summary, methodology, and
+      missing raw observations are documented without reconstruction.
+- [ ] Fresh v2 benchmark record retains raw latency, cold-start, and Working Set
+      samples with host and source metadata.
 
 ## Quality and presentation
 
@@ -39,5 +44,6 @@
 - [x] README contains API examples, compatibility table, and exact limitations.
 - [x] Under-five-minute live-evidence demo script completed.
 - [ ] Demo video recorded, rendered, and verified under five minutes.
-- [ ] Devfolio/project submission completed before 2026-08-04 02:00 Beijing.
+- [ ] Official organizer submission form completed before 2026-08-04 02:00
+      Beijing (registration is through Tally; Devfolio is not required).
 - [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.

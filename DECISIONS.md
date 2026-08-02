@@ -26,11 +26,14 @@ memory limit. `parameterLimit` constrains pair count. The Go port models those
 semantics and will expose separate byte, node, and nesting safety limits for
 untrusted input.
 
-## 2026-08-01 — Differential testing uses tagged NDJSON
+## 2026-08-01 — Bound the first oracle wire to versioned NDJSON
 
 Plain JSON cannot preserve sparse holes, `undefined`, negative zero, invalid
-UTF-16 surrogates, or reference identity. The oracle protocol therefore uses
-tagged values and an explicit handshake that rejects an altered upstream tree.
+UTF-16 surrogates, or reference identity. The recorded stage-one oracle
+therefore accepts only dense JSON-compatible trees and built-in serializable
+options. Its handshake rejects an altered upstream tree and declares this
+wire boundary explicitly; tagged-value transport remains a documented future
+expansion rather than an inflated current claim.
 
 ## 2026-08-01 — Keep the Node oracle outside the release path
 
@@ -75,3 +78,22 @@ numeric keys as `3` then `1`, while JavaScript enumerated them as `1` then `3`.
 Ordered objects therefore use the ECMAScript-observable rule: canonical uint32
 indices below `4294967295` sort numerically before ordinary string keys, whose
 insertion order remains stable. Keys such as `01` and `4294967295` stay ordinary.
+
+## 2026-08-02 — Prove corpus reachability from the runner
+
+Alternating parse and stringify through one global case index introduced a
+parity bias: the generators defined 32 and 24 scheduled templates, but the
+recorded runner reached only half of each schedule. The runner now advances an
+operation-local index. Tests assert full 32/24 reachability and distinct
+stringify input/option templates, and the superseded run is not used as final
+evidence. Evidence breadth is measured from the execution schedule, not
+inferred from switch-case count.
+
+## 2026-08-02 — Keep benchmark evidence generations immutable
+
+The first benchmark record retained aggregates but not its individual latency,
+cold-start, or Working Set samples. Those observations cannot be reconstructed
+honestly. The v2 runner therefore creates a new, non-overwriting evidence
+directory, verifies source identity before and after timing, and retains raw
+samples in acquisition order. Historical gaps remain disclosed instead of
+being backfilled from summary statistics.

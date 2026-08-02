@@ -22,14 +22,15 @@ const (
 var benchmarkSink int
 
 type workloadResult struct {
-	Name       string  `json:"name"`
-	MedianNS   float64 `json:"median_ns_per_op"`
-	P95NS      float64 `json:"p95_ns_per_op"`
-	P99NS      float64 `json:"p99_ns_per_op"`
-	MinimumNS  float64 `json:"minimum_ns_per_op"`
-	MaximumNS  float64 `json:"maximum_ns_per_op"`
-	Operations int     `json:"operations"`
-	Checksum   int     `json:"checksum"`
+	Name           string    `json:"name"`
+	SamplesNSPerOp []float64 `json:"samples_ns_per_op"`
+	MedianNS       float64   `json:"median_ns_per_op"`
+	P95NS          float64   `json:"p95_ns_per_op"`
+	P99NS          float64   `json:"p99_ns_per_op"`
+	MinimumNS      float64   `json:"minimum_ns_per_op"`
+	MaximumNS      float64   `json:"maximum_ns_per_op"`
+	Operations     int       `json:"operations"`
+	Checksum       int       `json:"checksum"`
 }
 
 type memoryResult struct {
@@ -137,14 +138,15 @@ func measure(name string, operation func() int) workloadResult {
 	sorted := append([]float64(nil), samples...)
 	sort.Float64s(sorted)
 	return workloadResult{
-		Name:       name,
-		MedianNS:   percentile(sorted, 0.50),
-		P95NS:      percentile(sorted, 0.95),
-		P99NS:      percentile(sorted, 0.99),
-		MinimumNS:  sorted[0],
-		MaximumNS:  sorted[len(sorted)-1],
-		Operations: sampleCount * iterationsPerSample,
-		Checksum:   checksum,
+		Name:           name,
+		SamplesNSPerOp: append([]float64(nil), samples...),
+		MedianNS:       percentile(sorted, 0.50),
+		P95NS:          percentile(sorted, 0.95),
+		P99NS:          percentile(sorted, 0.99),
+		MinimumNS:      sorted[0],
+		MaximumNS:      sorted[len(sorted)-1],
+		Operations:     sampleCount * iterationsPerSample,
+		Checksum:       checksum,
 	}
 }
 

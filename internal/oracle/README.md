@@ -33,3 +33,18 @@ through ordinary JSON:
 Unknown options are rejected. In particular, callback-bearing options such as
 `decoder`, `encoder`, `filter`, `sort`, and `serializeDate` cannot cross the
 protocol and cannot be used to inject executable code.
+
+## Running the integration test
+
+The public default test path is pure Go. The Node oracle integration runs only
+when `QSGO_RUN_ORACLE_TESTS=1` is set, and it requires the exact frozen upstream
+checkout at `../upstream_qs` relative to the qs-go module root. The checkout
+must include its installed test dependencies; the oracle performs no download.
+
+```bash
+QSGO_RUN_ORACLE_TESTS=1 go test ./internal/differential \
+  -run '^TestFrozenOracleHandshakeAndBasicCases$' -count=1
+```
+
+`make oracle-test` runs the same command. If the opt-in flag is set without the
+fixture, the test fails and prints the expected absolute fixture path.

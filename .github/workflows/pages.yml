@@ -30,7 +30,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: false
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - name: Build the actual CLI for WebAssembly
         shell: bash
         run: |
@@ -39,7 +39,7 @@ jobs:
           cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" _site/
           GOOS=js GOARCH=wasm go build -trimpath -o _site/qsgo.wasm ./cmd/qsgo
       - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -52,4 +52,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

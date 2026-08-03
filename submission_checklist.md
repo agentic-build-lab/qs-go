@@ -52,6 +52,8 @@
       `https://agentic-build-lab.github.io/qs-go/`; the clean GitHub Pages run
       builds the existing `cmd/qsgo` entry point, and anonymous HTTP access plus
       a public-browser parse execution were verified.
-- [ ] Official organizer submission form completed before 2026-08-04 02:00
-      Beijing (registration is through Tally; Devfolio is not required).
+- [x] Official organizer Tally form completed before 2026-08-04 02:00
+      Beijing. The visible server status `Form submitted` and confirmation
+      heading `Thanks for completing this form!` were observed at 2026-08-03
+      20:07:11 Asia/Shanghai and preserved outside the public repository.
 - [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.

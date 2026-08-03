@@ -10,6 +10,12 @@ demo](https://agentic-build-lab.github.io/qs-go/) without installing anything.
 The page builds this repository's existing `cmd/qsgo` entry point rather than
 maintaining a browser-only reimplementation.
 
+The companion technical write-up, [The Port Was the Easy Part: Proving a
+JavaScript Query-String Codec in
+Go](https://dev.to/parityforge/the-port-was-the-easy-part-proving-a-javascript-query-string-codec-in-go-48ka),
+explains the value-model boundary, property-ordering counterexample, scheduler
+reachability bug, and retained unfavorable benchmark result.
+
 `qs-go` is a clean-room Go port of the observable query-string behavior in
 [`ljharb/qs`](https://github.com/ljharb/qs), frozen at commit
 `3a890d4ecd3deb72a45d90be36f4f8c5970467c7` (`v6.15.3-8-g3a890d4`).

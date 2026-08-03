@@ -56,4 +56,9 @@
       Beijing. The visible server status `Form submitted` and confirmation
       heading `Thanks for completing this form!` were observed at 2026-08-03
       20:07:11 Asia/Shanghai and preserved outside the public repository.
-- [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.
+- [x] Technical write-up published on DEV Community and anonymously verified at
+      `https://dev.to/parityforge/the-port-was-the-easy-part-proving-a-javascript-query-string-codec-in-go-48ka`
+      on 2026-08-03.
+- [ ] Technical write-up URL submitted through the organizer's official
+      side-quest route before 2026-08-11 02:00 Beijing; the route is still
+      pending official discovery or announcement.

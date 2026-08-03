@@ -4,6 +4,10 @@ This page is the shortest path through the evidence for the Port Mortem 2026
 Track H submission. Every headline number below points to a command or retained
 artifact, and every equivalence claim is scoped.
 
+For the engineering narrative behind the evidence, read [The Port Was the Easy
+Part: Proving a JavaScript Query-String Codec in
+Go](https://dev.to/parityforge/the-port-was-the-easy-part-proving-a-javascript-query-string-codec-in-go-48ka).
+
 ## Scoring map
 
 | Criterion | Evidence |

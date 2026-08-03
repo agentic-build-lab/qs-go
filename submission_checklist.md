@@ -48,6 +48,10 @@
       timeline were visually reviewed. The anonymously downloaded release asset
       matches SHA-256
       `FA2B9D9D0E0AC6237D5B6F84ACB9CBD122D68C3ADEA55C56DBB063793E574490`.
+- [x] Live Go/WebAssembly demo deployed at
+      `https://agentic-build-lab.github.io/qs-go/`; the clean GitHub Pages run
+      builds the existing `cmd/qsgo` entry point, and anonymous HTTP access plus
+      a public-browser parse execution were verified.
 - [ ] Official organizer submission form completed before 2026-08-04 02:00
       Beijing (registration is through Tally; Devfolio is not required).
 - [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.

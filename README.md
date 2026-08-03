@@ -1,6 +1,7 @@
 # qs-go
 
 [![verify](https://github.com/agentic-build-lab/qs-go/actions/workflows/verify.yml/badge.svg)](https://github.com/agentic-build-lab/qs-go/actions/workflows/verify.yml)
+[![live demo](https://github.com/agentic-build-lab/qs-go/actions/workflows/pages.yml/badge.svg)](https://agentic-build-lab.github.io/qs-go/)
 
 Judges and reviewers can start with [`EVALUATION.md`](EVALUATION.md) for a
 one-page map from the scoring criteria to commands, evidence, and limits.

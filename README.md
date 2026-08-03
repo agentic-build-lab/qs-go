@@ -4,6 +4,10 @@
 
 Judges and reviewers can start with [`EVALUATION.md`](EVALUATION.md) for a
 one-page map from the scoring criteria to commands, evidence, and limits.
+They can also run the [live Go/WebAssembly
+demo](https://agentic-build-lab.github.io/qs-go/) without installing anything.
+The page builds this repository's existing `cmd/qsgo` entry point rather than
+maintaining a browser-only reimplementation.
 
 `qs-go` is a clean-room Go port of the observable query-string behavior in
 [`ljharb/qs`](https://github.com/ljharb/qs), frozen at commit

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Run the actual qs-go command-line port in your browser and inspect its bounded parity evidence.">
+    <meta name="theme-color" content="#09110f">
+    <title>qs-go | Live Port Mortem Demo</title>
+    <link rel="preload" href="./qsgo.wasm" as="fetch" type="application/wasm" crossorigin>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./wasm_exec.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#demo">Skip to the live demo</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="qs-go home">
+        <span class="brand-mark" aria-hidden="true">qs</span>
+        <span>qs-go</span>
+      </a>
+      <nav aria-label="Project links">
+        <a href="https://github.com/agentic-build-lab/qs-go">Repository</a>
+        <a href="https://github.com/agentic-build-lab/qs-go/blob/main/EVALUATION.md">Evaluation guide</a>
+        <a class="nav-cta" href="https://github.com/agentic-build-lab/qs-go/releases/tag/port-mortem-2026-submission">Release</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> Port Mortem 2026 · Track H · JavaScript → Go</div>
+        <h1 id="hero-title">Not just compiled.<br><span>Defensible.</span></h1>
+        <p class="hero-copy">
+          A clean-room, type-safe Go port of <code>ljharb/qs</code>, backed by a
+          frozen oracle, deterministic differential testing, and evidence that
+          keeps the regressions visible.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Run the real port</a>
+          <a class="button secondary" href="https://github.com/agentic-build-lab/qs-go/blob/main/PROVENANCE.md">Audit provenance</a>
+        </div>
+        <p class="runtime-note"><span aria-hidden="true">◆</span> The demo compiles the repository's existing Go CLI to WebAssembly. No Node runtime or reimplementation runs in this page.</p>
+      </section>
+
+      <section class="evidence-strip" aria-label="Headline evidence">
+        <article>
+          <strong>1045/1045</strong>
+          <span>frozen upstream JS baseline</span>
+        </article>
+        <article>
+          <strong>672,321</strong>
+          <span>declared-scope comparisons</span>
+        </article>
+        <article>
+          <strong>0</strong>
+          <span>final observed differences</span>
+        </article>
+        <article>
+          <strong>81.5%</strong>
+          <span>root statement coverage</span>
+        </article>
+      </section>
+
+      <section class="demo-shell" id="demo" aria-labelledby="demo-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">Actual binary path · browser delivery</p>
+            <h2 id="demo-title">Query laboratory</h2>
+          </div>
+          <div class="status" id="runtime-status" role="status" aria-live="polite">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Loading Go runtime…</span>
+          </div>
+        </div>
+
+        <div class="lab-grid">
+          <div class="input-panel panel">
+            <div class="panel-label">
+              <label for="query-input">Query string</label>
+              <span>UTF-8 · 4 KiB demo limit</span>
+            </div>
+            <textarea id="query-input" maxlength="4096" spellcheck="false">a[3]=4zf&amp;a[1]=ui_ir</textarea>
+
+            <div class="examples" aria-label="Example queries">
+              <span>Try a case</span>
+              <button type="button" class="example" data-query="a[3]=4zf&amp;a[1]=ui_ir">Ordering regression</button>
+              <button type="button" class="example" data-query="user[name]=Ada&amp;user[roles][]=admin&amp;user[roles][]=reviewer">Nested arrays</button>
+              <button type="button" class="example" data-query="role=admin&amp;role=reviewer">Duplicate keys</button>
+              <button type="button" class="example" data-query="utf8=%E2%9C%93&amp;note=Port%20Mortem">Encoding</button>
+            </div>
+
+            <div class="run-actions">
+              <button class="button primary run-button" id="parse-button" type="button" disabled>
+                <span>Parse to ordered JSON</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <button class="button secondary run-button" id="normalize-button" type="button" disabled>
+                <span>Normalize query</span>
+              </button>
+            </div>
+            <p class="shortcut">Tip: press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to parse.</p>
+          </div>
+
+          <div class="output-panel panel">
+            <div class="panel-label">
+              <span id="output-label">CLI stdout</span>
+              <button type="button" class="copy-button" id="copy-button" disabled>Copy</button>
+            </div>
+            <pre id="output" tabindex="0" aria-labelledby="output-label"><code>Waiting for the Go/WASM runtime…</code></pre>
+            <div class="execution-meta" id="execution-meta" aria-live="polite">
+              <span id="process-meta">Fresh Go/WASM instance per run</span>
+              <span id="command-meta">Output is not sent anywhere</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="argument" aria-labelledby="argument-title">
+        <div>
+          <p class="kicker">Why this port matters</p>
+          <h2 id="argument-title">Dynamic behavior,<br>closed Go model.</h2>
+        </div>
+        <div class="argument-grid">
+          <article>
+            <span class="index">01</span>
+            <h3>Representation before syntax</h3>
+            <p>Ordered objects and explicit sparse-array slots preserve distinctions that ordinary Go maps and slices erase.</p>
+          </article>
+          <article>
+            <span class="index">02</span>
+            <h3>Evidence before adjectives</h3>
+            <p>Source hashes, oracle handshakes, reachable corpus templates, raw benchmark samples, and exact limitations are retained in-repo.</p>
+          </article>
+          <article>
+            <span class="index">03</span>
+            <h3>Tradeoffs stay visible</h3>
+            <p>Median cold start improved about 4.9× and peak working set fell 45.6%; measured parse latency regressions and the first-start outlier remain published.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="scope-card" aria-labelledby="scope-title">
+        <div class="scope-icon" aria-hidden="true">≠</div>
+        <div>
+          <p class="kicker">Claim boundary</p>
+          <h2 id="scope-title">Zero differences is a scoped result.</h2>
+          <p>
+            The 672,321 comparisons cover the declared JSON-compatible dense
+            subset across 32 parse and 24 stringify templates. The 1045/1045
+            figure is the frozen JavaScript baseline—not tests executed directly
+            against Go. Tagged JavaScript-only values, callbacks, cycles, and an
+            exhaustive one-to-one mapping of all upstream test blocks are deferred.
+          </p>
+          <a href="https://github.com/agentic-build-lab/qs-go/blob/main/EVALUATION.md#important-limits">Read every limitation →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        <strong>qs-go</strong>
+        <span>Parity you can inspect.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/agentic-build-lab/qs-go/blob/main/DECISIONS.md">Decisions</a>
+        <a href="https://github.com/agentic-build-lab/qs-go/tree/main/bench/recorded_v2">Raw benchmark record</a>
+        <a href="https://github.com/agentic-build-lab/qs-go/blob/main/fuzz/report.json">Fuzz report</a>
+      </div>
+    </footer>
+  </body>
+</html>

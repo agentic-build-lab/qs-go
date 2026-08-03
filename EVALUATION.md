@@ -8,12 +8,17 @@ artifact, and every equivalence claim is scoped.
 
 | Criterion | Evidence |
 | --- | --- |
-| Functionality and reliability | `go test ./... -count=1`, `go vet ./...`, the standalone CLI, clean-archive verification, and Linux/Windows CI |
+| Functionality and reliability | [No-install live demo](https://agentic-build-lab.github.io/qs-go/), `go test ./... -count=1`, `go vet ./...`, the standalone CLI, clean-archive verification, and Linux/Windows CI |
 | Behavioral equivalence | Frozen `1045/1045` JavaScript baseline; commit, test-tree, and source-hash handshake; 672,321-case differential record; regression test for the discovered integer-property ordering mismatch; explicit compatibility ledger |
 | Code quality | Closed typed `Value` algebra, ordered objects, explicit resource budgets, standard-library core, documented decisions, and no `any`, `interface{}`, or `unsafe` escape hatch in Go source |
-| Innovation | A port whose evidence chain is itself tested: runner-level corpus reachability, hash-frozen oracle boundaries, raw-sample benchmark tooling, and visible performance regressions rather than a one-sided scorecard |
+| Innovation | One CLI delivered as a native binary and a live Go/WebAssembly demo, plus an evidence chain that is itself tested: runner-level corpus reachability, hash-frozen oracle boundaries, raw-sample benchmark tooling, and visible performance regressions rather than a one-sided scorecard |
 
 ## Five-minute verification path
+
+For the fastest no-install smoke test, open the [live
+demo](https://agentic-build-lab.github.io/qs-go/) and run both `parse` and
+`normalize`. GitHub Actions compiles the same `cmd/qsgo` entry point used by the
+standalone release to WebAssembly; the page does not contain a second parser.
 
 Run the default release-path checks from a fresh clone with Go 1.26 or later:
 
@@ -88,3 +93,6 @@ have no Node, cgo, subprocess, or third-party runtime dependency.
   toolchain because cgo was disabled; this is not reported as a passing check.
 - The discovered mismatch was in the developing Go port, not an upstream bug,
   and is not submitted for the separate Bug Catcher prize.
+- The interactive demo exposes the CLI's default `parse` and `normalize`
+  commands only. Its per-run browser timing is presentation feedback, not part
+  of the recorded cross-runtime benchmark.

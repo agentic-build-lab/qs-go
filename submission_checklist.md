@@ -43,7 +43,11 @@
 - [x] At least ten non-trivial architectural decisions documented.
 - [x] README contains API examples, compatibility table, and exact limitations.
 - [x] Under-five-minute live-evidence demo script completed.
-- [ ] Demo video recorded, rendered, and verified under five minutes.
+- [x] Demo video recorded and fully decoded at 1920x1080, constant 30 fps,
+      H.264/AAC, and exactly 4:40; representative frames across the complete
+      timeline were visually reviewed. The anonymously downloaded release asset
+      matches SHA-256
+      `FA2B9D9D0E0AC6237D5B6F84ACB9CBD122D68C3ADEA55C56DBB063793E574490`.
 - [ ] Official organizer submission form completed before 2026-08-04 02:00
       Beijing (registration is through Tally; Devfolio is not required).
 - [ ] Technical write-up submitted before 2026-08-11 02:00 Beijing.

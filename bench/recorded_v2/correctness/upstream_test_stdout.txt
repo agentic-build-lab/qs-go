@@ -1,0 +1,1414 @@
+TAP version 13
+# parse()
+ok 1 parses a single nested string
+ok 2 parses a double nested string
+ok 3 defaults to a depth of 5
+ok 4 parses a simple array
+ok 5 supports keys that begin with a number
+# parses a simple string
+ok 6 should be deeply equivalent
+ok 7 should be deeply equivalent
+ok 8 should be deeply equivalent
+ok 9 should be deeply equivalent
+ok 10 should be deeply equivalent
+ok 11 should be deeply equivalent
+ok 12 should be deeply equivalent
+ok 13 should be deeply equivalent
+ok 14 should be deeply equivalent
+ok 15 should be deeply equivalent
+ok 16 should be deeply equivalent
+ok 17 should be deeply equivalent
+ok 18 should be deeply equivalent
+ok 19 should be deeply equivalent
+ok 20 should be deeply equivalent
+ok 21 should be deeply equivalent
+# comma: false
+ok 22 should be deeply equivalent
+ok 23 should be deeply equivalent
+ok 24 should be deeply equivalent
+ok 25 should be deeply equivalent
+# comma: true
+ok 26 should be deeply equivalent
+ok 27 should be deeply equivalent
+ok 28 should be deeply equivalent
+ok 29 should be deeply equivalent
+# allows enabling dot notation
+ok 30 should be deeply equivalent
+ok 31 should be deeply equivalent
+# decode dot keys correctly
+ok 32 with allowDots false and decodeDotInKeys false
+ok 33 with allowDots false and decodeDotInKeys false
+ok 34 with allowDots true and decodeDotInKeys false
+ok 35 with allowDots true and decodeDotInKeys true
+ok 36 with allowDots false and decodeDotInKeys false
+ok 37 with allowDots true and decodeDotInKeys false
+ok 38 with allowDots true and decodeDotInKeys true
+ok 39 with allowDots and decodeDotInKeys undefined
+# decodes dot in key of object, and allow enabling dot notation when decodeDotInKeys is set to true and allowDots is undefined
+ok 40 with allowDots undefined and decodeDotInKeys true
+# throws when decodeDotInKeys is not of type boolean
+ok 41 should throw
+ok 42 should throw
+ok 43 should throw
+ok 44 should throw
+# allows empty arrays in obj values
+ok 45 should be deeply equivalent
+ok 46 should be deeply equivalent
+# throws when allowEmptyArrays is not of type boolean
+ok 47 should throw
+ok 48 should throw
+ok 49 should throw
+ok 50 should throw
+# allowEmptyArrays + strictNullHandling
+ok 51 should be deeply equivalent
+# only parses one level when depth = 1
+ok 52 should be deeply equivalent
+ok 53 should be deeply equivalent
+# uses original key when depth = 0
+ok 54 should be deeply equivalent
+ok 55 should be deeply equivalent
+ok 56 normalizes dots before applying depth-0 behavior
+ok 57 respects prototype guard at depth 0
+ok 58 allows prototypes at depth 0 when enabled
+# ignores prototype keys when depth = 0 and allowPrototypes is false
+ok 59 should be deeply equivalent
+ok 60 should be deeply equivalent
+ok 61 should be deeply equivalent
+# allows prototype keys when depth = 0 and allowPrototypes is true
+ok 62 should be deeply equivalent
+# uses original key when depth = false
+ok 63 should be deeply equivalent
+ok 64 should be deeply equivalent
+# parses an explicit array
+ok 65 should be deeply equivalent
+ok 66 should be deeply equivalent
+ok 67 should be deeply equivalent
+# parses a mix of simple and explicit arrays
+ok 68 should be deeply equivalent
+ok 69 should be deeply equivalent
+ok 70 should be deeply equivalent
+ok 71 should be deeply equivalent
+ok 72 should be deeply equivalent
+ok 73 should be deeply equivalent
+ok 74 should be deeply equivalent
+ok 75 should be deeply equivalent
+ok 76 should be deeply equivalent
+ok 77 should be deeply equivalent
+# parses a nested array
+ok 78 should be deeply equivalent
+ok 79 should be deeply equivalent
+# parses keys with literal [] inside a bracket group (#493)
+ok 80 treats inner [] literally when inside a bracket group
+ok 81 keeps "b[]" as a literal key
+ok 82 preserves inner [] while still treating outer [] as array push
+ok 83 treats "b[c[]]" as a literal key inside the bracket group
+ok 84 respects depth: 1 and preserves literal inner [] in the parsed key
+ok 85 handles unterminated inner bracket groups without throwing
+# currently parses unbalanced bracket keys after a parent leniently to literal segments (issue #558)
+ok 86 unclosed group after a parent: does not throw
+ok 87 unclosed group after a parent: parses to the current lenient output
+ok 88 bare unclosed bracket after a parent: does not throw
+ok 89 bare unclosed bracket after a parent: parses to the current lenient output
+ok 90 unclosed group after a valid one: does not throw
+ok 91 unclosed group after a valid one: parses to the current lenient output
+ok 92 unclosed group after text following a valid one: does not throw
+ok 93 unclosed group after text following a valid one: parses to the current lenient output
+ok 94 the issue #558 reproduction: does not throw
+ok 95 the issue #558 reproduction: parses to the current lenient output
+ok 96 stray close bracket before an unclosed group: does not throw
+ok 97 stray close bracket before an unclosed group: parses to the current lenient output
+ok 98 stray close bracket inside the parent: does not throw
+ok 99 stray close bracket inside the parent: parses to the current lenient output
+# currently parses unbalanced bracket keys containing inner brackets leniently (issue #558)
+ok 100 unclosed group containing an inner bracket: does not throw
+ok 101 unclosed group containing an inner bracket: parses to the current lenient output
+ok 102 unbalanced group with an inner bracket and one close: does not throw
+ok 103 unbalanced group with an inner bracket and one close: parses to the current lenient output
+ok 104 unclosed inner-bracket group after a valid one: does not throw
+ok 105 unclosed inner-bracket group after a valid one: parses to the current lenient output
+# currently parses bracket-prefixed unbalanced keys leniently (issue #558)
+ok 106 key starting with an unclosed bracket: does not throw
+ok 107 key starting with an unclosed bracket: parses to the current lenient output
+ok 108 key starting with an unbalanced bracket group: does not throw
+ok 109 key starting with an unbalanced bracket group: parses to the current lenient output
+# lenient unbalanced-bracket handling currently depends on the depth option (issue #558)
+ok 110 consumes groups up to the depth budget then keeps the unclosed remainder literal: does not throw
+ok 111 consumes groups up to the depth budget then keeps the unclosed remainder literal: parses to the current lenient output
+ok 112 a lower depth keeps more of the unclosed remainder literal: does not throw
+ok 113 a lower depth keeps more of the unclosed remainder literal: parses to the current lenient output
+ok 114 depth 0 keeps the entire key literal: does not throw
+ok 115 depth 0 keeps the entire key literal: parses to the current lenient output
+# currently parses an allowDots key with a trailing unclosed bracket leniently (issue #558)
+ok 116 allowDots expands the dot then keeps the unclosed bracket literal: does not throw
+ok 117 allowDots expands the dot then keeps the unclosed bracket literal: parses to the current lenient output
+# valid and stray-close bracket keys are unaffected by unbalanced-bracket handling
+ok 118 stray close bracket with no open bracket stays a flat key: does not throw
+ok 119 stray close bracket with no open bracket stays a flat key: parses to the current lenient output
+ok 120 text after a balanced group is ignored: does not throw
+ok 121 text after a balanced group is ignored: parses to the current lenient output
+# allows to specify array indices
+ok 122 should be deeply equivalent
+ok 123 should be deeply equivalent
+ok 124 should be deeply equivalent
+ok 125 should be deeply equivalent
+ok 126 should be deeply equivalent
+# limits specific array indices to arrayLimit
+ok 127 should be deeply equivalent
+ok 128 should be deeply equivalent
+ok 129 should be deeply equivalent
+ok 130 should be deeply equivalent
+# supports encoded = signs
+ok 131 should be deeply equivalent
+# is ok with url encoded strings
+ok 132 should be deeply equivalent
+ok 133 should be deeply equivalent
+# allows brackets in the value
+ok 134 should be deeply equivalent
+ok 135 should be deeply equivalent
+# allows empty values
+ok 136 should be deeply equivalent
+ok 137 should be deeply equivalent
+ok 138 should be deeply equivalent
+# transforms arrays to objects
+ok 139 should be deeply equivalent
+ok 140 should be deeply equivalent
+ok 141 should be deeply equivalent
+ok 142 should be deeply equivalent
+ok 143 should be deeply equivalent
+ok 144 should be deeply equivalent
+ok 145 should be deeply equivalent
+ok 146 should be deeply equivalent
+ok 147 should be deeply equivalent
+ok 148 should be deeply equivalent
+# transforms arrays to objects (dot notation)
+ok 149 should be deeply equivalent
+ok 150 should be deeply equivalent
+ok 151 should be deeply equivalent
+ok 152 should be deeply equivalent
+ok 153 should be deeply equivalent
+ok 154 should be deeply equivalent
+ok 155 should be deeply equivalent
+ok 156 should be deeply equivalent
+ok 157 should be deeply equivalent
+ok 158 should be deeply equivalent
+# correctly prunes undefined values when converting an array to an object
+ok 159 should be deeply equivalent
+# supports malformed uri characters
+ok 160 should be deeply equivalent
+ok 161 should be deeply equivalent
+ok 162 should be deeply equivalent
+# doesn't produce empty keys
+ok 163 should be deeply equivalent
+# cannot access Object prototype
+ok 164 should be strictly equal
+# parses arrays of objects
+ok 165 should be deeply equivalent
+ok 166 should be deeply equivalent
+# allows for empty strings in arrays
+ok 167 should be deeply equivalent
+ok 168 with arrayLimit 20 + array indices: null then empty string works
+ok 169 with arrayLimit 0 + array brackets: null then empty string works
+ok 170 with arrayLimit 20 + array indices: empty string then null works
+ok 171 with arrayLimit 0 + array brackets: empty string then null works
+ok 172 array brackets: empty strings work
+# compacts sparse arrays
+ok 173 should be deeply equivalent
+ok 174 should be deeply equivalent
+ok 175 should be deeply equivalent
+ok 176 should be deeply equivalent
+# parses sparse arrays
+ok 177 should be deeply equivalent
+ok 178 should be deeply equivalent
+ok 179 should be deeply equivalent
+ok 180 should be deeply equivalent
+# parses semi-parsed strings
+ok 181 should be deeply equivalent
+ok 182 should be deeply equivalent
+# parses buffers correctly
+ok 183 should be deeply equivalent
+# parses jquery-param strings
+ok 184 should be deeply equivalent
+# continues parsing when no parent is found
+ok 185 should be deeply equivalent
+ok 186 should be deeply equivalent
+ok 187 should be deeply equivalent
+# does not error when parsing a very long array
+ok 188 should not throw
+# does not throw when a native prototype has an enumerable property
+ok 189 should not throw
+ok 190 should be deeply equivalent
+ok 191 should not throw
+ok 192 should be deeply equivalent
+# parses a string with an alternative string delimiter
+ok 193 should be deeply equivalent
+# parses a string with an alternative RegExp delimiter
+ok 194 should be deeply equivalent
+# does not use non-splittable objects as delimiters
+ok 195 should be deeply equivalent
+# allows overriding parameter limit
+ok 196 should be deeply equivalent
+# allows setting the parameter limit to Infinity
+ok 197 should be deeply equivalent
+# allows overriding array limit
+ok 198 should be deeply equivalent
+ok 199 should be deeply equivalent
+ok 200 should be deeply equivalent
+ok 201 should be deeply equivalent
+ok 202 should be deeply equivalent
+ok 203 should be deeply equivalent
+# allows disabling array parsing
+ok 204 should be deeply equivalent
+ok 205 parseArrays:false, indices case is not an array
+ok 206 should be deeply equivalent
+ok 207 parseArrays:false, empty brackets case is not an array
+# allows for query string prefix
+ok 208 should be deeply equivalent
+ok 209 should be deeply equivalent
+ok 210 should be deeply equivalent
+# parses an object
+ok 211 should be deeply equivalent
+# parses string with comma as array divider
+ok 212 should be deeply equivalent
+ok 213 should be deeply equivalent
+ok 214 should be deeply equivalent
+ok 215 should be deeply equivalent
+ok 216 should be deeply equivalent
+ok 217 should be deeply equivalent
+ok 218 should be deeply equivalent
+ok 219 should be deeply equivalent
+ok 220 should be deeply equivalent
+ok 221 should be deeply equivalent
+ok 222 should be deeply equivalent
+# parses values with comma as array divider
+ok 223 should be deeply equivalent
+ok 224 should be deeply equivalent
+# use number decoder, parses string that has one number with comma option enabled
+ok 225 should be deeply equivalent
+ok 226 should be deeply equivalent
+# parses brackets holds array of arrays when having two parts of strings with comma as array divider
+ok 227 should be deeply equivalent
+ok 228 should be deeply equivalent
+ok 229 should be deeply equivalent
+ok 230 should be deeply equivalent
+# parses url-encoded brackets holds array of arrays when having two parts of strings with comma as array divider
+ok 231 should be deeply equivalent
+ok 232 should be deeply equivalent
+ok 233 should be deeply equivalent
+ok 234 should be deeply equivalent
+# parses comma delimited array while having percent-encoded comma treated as normal text
+ok 235 should be deeply equivalent
+ok 236 should be deeply equivalent
+ok 237 should be deeply equivalent
+# parses an object in dot notation
+ok 238 should be deeply equivalent
+# parses an object and not child values
+ok 239 should be deeply equivalent
+# does not blow up when Buffer global is missing
+ok 240 should be deeply equivalent
+# does not crash when parsing circular references
+ok 241 should not throw
+ok 242 parsed has "foo" property
+ok 243 should be strictly equal
+ok 244 should be strictly equal
+ok 245 should be strictly equal
+ok 246 should be deeply equivalent
+# does not crash on multi-step circular references
+ok 247 should not throw
+ok 248 parsed has "foo" property
+ok 249 the multi-step cycle is preserved
+# does not crash when parsing deep objects
+ok 250 should not throw
+ok 251 parsed has "foo" property
+ok 252 parsed is 5000 properties deep
+# parses null objects correctly
+ok 253 should be deeply equivalent
+ok 254 result has "a" property
+ok 255 should be deeply equivalent
+# parses dates correctly
+ok 256 should be deeply equivalent
+# parses regular expressions correctly
+ok 257 should be deeply equivalent
+# does not allow overwriting prototype properties
+ok 258 should be deeply equivalent
+ok 259 should be deeply equivalent
+ok 260 bare "toString" results in {}
+# can allow overwriting prototype properties
+ok 261 should be deeply equivalent
+ok 262 should be deeply equivalent
+ok 263 bare "toString" results in { toString: "" }
+# does not crash when the global Object prototype is frozen
+ok 264 regular assignment of an inherited non-writable property throws
+ok 265 parsing a nonwritable Object.prototype property does not throw
+ok 266 bare "frozenProp" results in {}
+# params starting with a closing bracket
+ok 267 should be deeply equivalent
+ok 268 should be deeply equivalent
+ok 269 should be deeply equivalent
+# params starting with a starting bracket
+ok 270 should be deeply equivalent
+ok 271 should be deeply equivalent
+ok 272 should be deeply equivalent
+# add keys to objects
+ok 273 can add keys to objects
+ok 274 can not overwrite prototype
+ok 275 can overwrite prototype with allowPrototypes true
+ok 276 can overwrite prototype with plainObjects true
+# strictMerge wraps object and primitive into an array
+ok 277 object then primitive produces array
+ok 278 primitive then object produces array
+ok 279 prototype-colliding value is preserved in array
+ok 280 plainObjects preserved in array wrapping
+# dunder proto is ignored
+ok 281 silent [[Prototype]] payload
+ok 282 silent [[Prototype]] payload: plain objects
+ok 283 is not an array
+ok 284 is not instanceof an array
+ok 285 should be deeply equivalent
+ok 286 stringifies as a non-array
+ok 287 hidden values
+ok 288 hidden values: plain objects
+# object-valued input with own `__proto__` does not mutate sub-object [[Prototype]]
+ok 289 name from bracket key is preserved
+ok 290 attacker-controlled inherited property is not exposed
+ok 291 sub-object [[Prototype]] is unchanged
+ok 292 Object.prototype is not polluted
+# can return null objects
+ok 293 should be deeply equivalent
+ok 294 should be deeply equivalent
+ok 295 should be deeply equivalent
+# can parse with custom encoding
+ok 296 should be deeply equivalent
+# receives the default decoder as a second argument
+ok 297 should be strictly equal
+# throws error with wrong decoder
+ok 298 should throw
+# does not mutate the options argument
+ok 299 should be deeply equivalent
+# throws if an invalid charset is specified
+ok 300 should throw
+# parses an iso-8859-1 string if asked to
+ok 301 should be deeply equivalent
+# prefers an utf-8 charset specified by the utf8 sentinel to a default charset of iso-8859-1
+ok 302 should be deeply equivalent
+# prefers an iso-8859-1 charset specified by the utf8 sentinel to a default charset of utf-8
+ok 303 should be deeply equivalent
+# does not require the utf8 sentinel to be defined before the parameters whose decoding it affects
+ok 304 should be deeply equivalent
+# ignores an utf8 sentinel with an unknown value
+ok 305 should be deeply equivalent
+# uses the utf8 sentinel to switch to utf-8 when no default charset is given
+ok 306 should be deeply equivalent
+# uses the utf8 sentinel to switch to iso-8859-1 when no default charset is given
+ok 307 should be deeply equivalent
+# interprets numeric entities in iso-8859-1 when `interpretNumericEntities`
+ok 308 should be deeply equivalent
+# handles a custom decoder returning `null`, in the `iso-8859-1` charset, when `interpretNumericEntities`
+ok 309 should be deeply equivalent
+# handles a custom decoder returning `null`, with a string key of `null`
+ok 310 "null" key is not overridden by `null` decoder result
+# does not interpret numeric entities in iso-8859-1 when `interpretNumericEntities` is absent
+ok 311 should be deeply equivalent
+# does not interpret numeric entities when the charset is utf-8, even when `interpretNumericEntities`
+ok 312 should be deeply equivalent
+# interpretNumericEntities with comma:true and iso charset does not crash
+ok 313 should be deeply equivalent
+# does not interpret %uXXXX syntax in iso-8859-1 mode
+ok 314 should be deeply equivalent
+# allows for decoding keys and values differently
+ok 315 should be deeply equivalent
+ok 316 this should never happen! type: unknown
+# parameter limit tests
+# does not throw error when within parameter limit
+ok 317 parses without errors
+# throws error when throwOnLimitExceeded is present but not boolean
+ok 318 throws error when throwOnLimitExceeded is present and not boolean
+# throws error when parameter limit exceeded
+ok 319 throws error when parameter limit is exceeded
+ok 320 throws error with singular "parameter" when parameterLimit is 1
+# silently truncates when throwOnLimitExceeded is not given
+ok 321 parses and truncates silently
+# silently truncates when parameter limit exceeded without error
+ok 322 parses and truncates silently
+# allows unlimited parameters when parameterLimit set to Infinity
+ok 323 parses all parameters without truncation
+# allows unlimited parameters when parameterLimit is Infinity and throwOnLimitExceeded is true
+ok 324 parses all parameters without truncation or throwing
+# array limit tests
+# does not throw error when array is within limit
+ok 325 parses array without errors
+# throws error when throwOnLimitExceeded is present but not boolean for array limit
+ok 326 throws error when throwOnLimitExceeded is present and not boolean for array limit
+# throws error when array limit exceeded
+ok 327 throws error when array limit is exceeded
+# does not throw when at limit
+ok 328 result is an array
+ok 329 all values present
+# converts array to object if length is greater than limit
+ok 330 parses into object if array length is greater than limit
+# throws error when indexed notation exceeds arrayLimit with throwOnLimitExceeded
+ok 331 throws error for a single index exceeding arrayLimit
+ok 332 throws error when a sparse index exceeds arrayLimit
+ok 333 throws error with singular "element" when arrayLimit is 1
+# does not throw for indexed notation within arrayLimit with throwOnLimitExceeded
+ok 334 result is an array
+ok 335 array has correct length
+ok 336 value at index 4 is correct
+# silently converts to object for indexed notation exceeding arrayLimit without throwOnLimitExceeded
+ok 337 converts to object without throwing
+# throws when duplicate bracket keys exceed arrayLimit with throwOnLimitExceeded
+ok 338 throws error when duplicate bracket notation exceeds array limit
+# throws when cumulative comma + duplicate-key combine exceeds arrayLimit
+ok 339 throws when comma groups within the limit cumulatively exceed it across duplicate keys
+ok 340 throws on a subsequent part once the cumulative array is already over the limit
+# throws when plain duplicate keys combine past arrayLimit at the boundary
+ok 341 duplicate scalar keys
+ok 342 duplicate bracket keys
+# throws when mixed index and key notation merge past arrayLimit
+ok 343 scalar then index that overflows on merge
+ok 344 indexed array then scalar that overflows on merge
+# enforces arrayLimit on merge at the boundary, consistently with combine
+ok 345 a trailing scalar merged into an at-limit array throws
+ok 346 and converts to an overflow object without throwOnLimitExceeded
+ok 347 mixed index and bracket notation merged past the limit throws
+ok 348 mixed index and bracket notation converts like duplicate-bracket combine
+# does not throw when cumulative comma combine stays within arrayLimit
+ok 349 combined array within limit is preserved
+# silently combines to an overflow object when throwOnLimitExceeded is not set
+ok 350 converts to object without throwing
+# does not throw for comma groups nested under bracket notation, counting each group as one element
+ok 351 nested comma groups count as one element each
+# throws before splitting when a single comma value exceeds arrayLimit
+ok 352 a flat comma value over the limit throws
+ok 353 singular message at arrayLimit 1
+ok 354 a non-bracket nested key comma value over the limit throws
+# does not throw for a single comma value within arrayLimit
+ok 355 within the limit
+ok 356 exactly at the limit
+# does not throw for a bracketed comma group within arrayLimit
+ok 357 a bracketed comma group is a single element
+# throws for a bracketed comma group when arrayLimit is 0
+ok 358 a single bracketed element still exceeds arrayLimit 0
+# parses empty keys
+# skips empty string key with &
+ok 359 should be deeply equivalent
+# skips empty string key with &&
+ok 360 should be deeply equivalent
+# skips empty string key with &=
+ok 361 should be deeply equivalent
+# skips empty string key with &=&
+ok 362 should be deeply equivalent
+# skips empty string key with &=&=
+ok 363 should be deeply equivalent
+# skips empty string key with &=&=&
+ok 364 should be deeply equivalent
+# skips empty string key with =
+ok 365 should be deeply equivalent
+# skips empty string key with =&
+ok 366 should be deeply equivalent
+# skips empty string key with =&&&
+ok 367 should be deeply equivalent
+# skips empty string key with =&=&=&
+ok 368 should be deeply equivalent
+# skips empty string key with =&a[]=b&a[1]=c
+ok 369 should be deeply equivalent
+# skips empty string key with =a
+ok 370 should be deeply equivalent
+# skips empty string key with a==a
+ok 371 should be deeply equivalent
+# skips empty string key with =&a[]=b
+ok 372 should be deeply equivalent
+# skips empty string key with =&a[]=b&a[]=c&a[2]=d
+ok 373 should be deeply equivalent
+# skips empty string key with =a&=b
+ok 374 should be deeply equivalent
+# skips empty string key with =a&foo=b
+ok 375 should be deeply equivalent
+# skips empty string key with a[]=b&a=c&=
+ok 376 should be deeply equivalent
+# skips empty string key with a[]=b&a=c&=
+ok 377 should be deeply equivalent
+# skips empty string key with a[0]=b&a=c&=
+ok 378 should be deeply equivalent
+# skips empty string key with a=b&a[]=c&=
+ok 379 should be deeply equivalent
+# skips empty string key with a=b&a[0]=c&=
+ok 380 should be deeply equivalent
+# skips empty string key with []=a&[]=b& []=1
+ok 381 should be deeply equivalent
+# skips empty string key with [0]=a&[1]=b&a[0]=1&a[1]=2
+ok 382 should be deeply equivalent
+# skips empty string key with [deep]=a&[deep]=2
+ok 383 should be deeply equivalent
+# skips empty string key with %5B0%5D=a&%5B1%5D=b
+ok 384 should be deeply equivalent
+# `duplicates` option
+ok 385 throws on invalid option: null
+ok 386 throws on invalid option: true
+ok 387 throws on invalid option: false
+ok 388 throws on invalid option: 0
+ok 389 throws on invalid option: -0
+ok 390 throws on invalid option: 42
+ok 391 throws on invalid option: Infinity
+ok 392 throws on invalid option: -Infinity
+ok 393 throws on invalid option: -1.3
+ok 394 throws on invalid option: 0.2
+ok 395 throws on invalid option: 1.8
+ok 396 throws on invalid option: 0.3333333333333333
+ok 397 throws on invalid option: Symbol(Symbol.iterator)
+ok 398 throws on invalid option: Symbol()
+ok 399 throws on invalid option: Symbol(foo)
+ok 400 throws on invalid option: Symbol(undefined)
+ok 401 throws on invalid option: Symbol(registered!)
+ok 402 throws on invalid option: Symbol(IntlLegacyConstructedSymbol)
+ok 403 throws on invalid option: {}
+ok 404 throws on invalid option: { valueOf: [Function: valueOf], toString: [Function: toString] }
+ok 405 throws on invalid option: { valueOf: [Function: valueOf], toString: [Function: toString] }
+ok 406 throws on invalid option: { valueOf: [Function: valueOf], toString: [Function: toString] }
+ok 407 throws on invalid option: { valueOf: [Function: valueOf], toString: [Function: toString] }
+ok 408 throws on invalid option: 42n
+ok 409 throws on invalid option: 0n
+ok 410 throws on invalid option: 'not a valid option'
+ok 411 duplicates: default, combine
+ok 412 duplicates: combine
+ok 413 duplicates: first
+ok 414 duplicates: last
+# bracket notation always combines regardless of duplicates
+ok 415 duplicates last: unbracketed takes last, bracketed combines
+ok 416 duplicates last: bracketed always combines
+ok 417 duplicates first: bracketed always combines
+ok 418 duplicates first: unbracketed takes first, bracketed combines
+# qs strictDepth option - throw cases
+# throws an exception when depth exceeds the limit with strictDepth: true
+ok 419 throws RangeError
+# throws an exception for multiple nested arrays with strictDepth: true
+ok 420 throws RangeError
+# throws an exception for nested objects and arrays with strictDepth: true
+ok 421 throws RangeError
+# throws an exception for different types of values with strictDepth: true
+ok 422 throws RangeError
+# qs strictDepth option - non-throw cases
+# when depth is 0 and strictDepth true, do not throw
+ok 423 does not throw RangeError
+# parses successfully when depth is within the limit with strictDepth: true
+ok 424 parses correctly
+ok 425 should not throw
+# does not throw an exception when depth exceeds the limit with strictDepth: false
+ok 426 parses with depth limit
+ok 427 should not throw
+# parses successfully when depth is within the limit with strictDepth: false
+ok 428 parses correctly
+ok 429 should not throw
+# does not throw when depth is exactly at the limit with strictDepth: true
+ok 430 parses correctly
+ok 431 should not throw
+# DOS
+ok 432 arrayLimit is respected: result is an object, not an array
+ok 433 all values are preserved
+# arrayLimit boundary conditions
+# exactly at the limit stays as array
+ok 434 result is an array when count equals limit
+ok 435 all values present
+# one over the limit converts to object
+ok 436 result is not an array when over limit
+ok 437 all values preserved as object
+# arrayLimit 1 with one value
+ok 438 result is an array when count equals limit
+ok 439 value preserved as array
+# arrayLimit 1 with two values converts to object
+ok 440 result is not an array
+ok 441 all values preserved as object
+# comma + arrayLimit
+# comma-separated values within arrayLimit stay as array
+ok 442 result is an array
+ok 443 all values present
+# comma-separated values exceeding arrayLimit convert to object
+ok 444 result is not an array when over limit
+ok 445 all values preserved as object
+# comma-separated values exceeding arrayLimit with throwOnLimitExceeded throws
+ok 446 throws error when comma-split exceeds array limit
+ok 447 throws error with singular "element" when arrayLimit is 1
+# comma-separated values at exactly arrayLimit stay as array
+ok 448 result is an array when exactly at limit
+ok 449 all values present
+# mixed array and object notation
+# array brackets with object key - under limit
+ok 450 mixing [] and [key] converts to object
+# array index with object key - under limit
+ok 451 mixing [0] and [key] produces object
+# plain value with array brackets - under limit
+ok 452 plain value combined with [] stays as array under limit
+# array brackets with plain value - under limit
+ok 453 [] combined with plain value stays as array under limit
+# plain value with array index - under limit
+ok 454 plain value combined with [0] stays as array under limit
+# multiple plain values with duplicates combine
+ok 455 duplicate plain keys combine into array
+# multiple plain values exceeding limit
+ok 456 duplicate plain keys convert to object when exceeding limit
+# mixed notation produces consistent results when arrayLimit is exceeded
+ok 457 arrayLimit -1
+ok 458 arrayLimit 0
+ok 459 arrayLimit 1
+# uses existing array length for currentArrayLength when parsing object input with bracket keys
+ok 460 parses object input with bracket keys using existing array values
+# throws with singular message when object input bracket key exceeds arrayLimit of 1
+ok 461 throws singular error for object input exceeding arrayLimit 1
+# stringify()
+# stringifies a querystring object
+ok 462 should be strictly equal
+ok 463 should be strictly equal
+ok 464 should be strictly equal
+ok 465 should be strictly equal
+ok 466 should be strictly equal
+ok 467 should be strictly equal
+ok 468 should be strictly equal
+ok 469 should be strictly equal
+# stringifies falsy values
+ok 470 should be strictly equal
+ok 471 should be strictly equal
+ok 472 should be strictly equal
+ok 473 should be strictly equal
+ok 474 should be strictly equal
+# stringifies symbols
+ok 475 should be strictly equal
+ok 476 should be strictly equal
+ok 477 should be strictly equal
+ok 478 should be strictly equal
+# stringifies bigints
+ok 479 should be strictly equal
+ok 480 should be strictly equal
+ok 481 should be strictly equal
+ok 482 should be strictly equal
+ok 483 should be strictly equal
+ok 484 should be strictly equal
+ok 485 should be strictly equal
+# encodes dot in key of object when encodeDotInKeys and allowDots is provided
+ok 486 with allowDots false and encodeDotInKeys false
+ok 487 with allowDots true and encodeDotInKeys false
+ok 488 with allowDots false and encodeDotInKeys true
+ok 489 with allowDots true and encodeDotInKeys true
+ok 490 with allowDots false and encodeDotInKeys false
+ok 491 with allowDots false and encodeDotInKeys false
+ok 492 with allowDots false and encodeDotInKeys true
+ok 493 with allowDots true and encodeDotInKeys true
+# encodes dot in key of object with a primitive value when encodeDotInKeys and allowDots is provided
+ok 494 with allowDots true and encodeDotInKeys true
+ok 495 with allowDots false and encodeDotInKeys true
+ok 496 with encodeValuesOnly true
+ok 497 with encodeValuesOnly the single-encoded dot decodes structurally (does not round-trip)
+ok 498 round-trips a dotted key with a primitive value
+ok 499 encodes a dotted key with a null value
+ok 500 encodes dots in every top-level key, not just the first
+ok 501 encodes every dot in a key
+ok 502 a top-level dotted key encodes identically for primitive and object values
+# [characterization] encodeDotInKeys currently over-encodes structural separator dots (pre-#564)
+ok 503 over-encodes the a->b separator (#564: should become a.b.c=d)
+ok 504 clobbers every separator but the last (#564: should become a.b.c.d=e)
+ok 505 top-level dotted key: deeper separators also get encoded (#564: should become a%252Eb.c.d=e)
+ok 506 nested dotted key + object value: the separator around it is encoded (#564: should become a.b%252Ec.d=e)
+ok 507 deeply nested dotted key: all separators encoded (#564: should become a.b.c%252Ed.e=f)
+ok 508 array value under nested keys: separator encoded (#564: should become a.b%5B0%5D=1&a.b%5B1%5D=2)
+ok 509 array value under nested dotted key (#564: should become a.b%252Ec%5B0%5D=1&a.b%252Ec%5B1%5D=2)
+ok 510 allowDots:false object value encodes the nested-key dot, unlike the primitive-value case (#564: should become a%5Bb.c%5D%5Bd%5D=e)
+ok 511 the over-encoding breaks the round-trip: {a:{b:{c}}} comes back as {"a.b":{c}} (#564 restores it)
+# should encode dot in key of object, and automatically set allowDots to `true` when encodeDotInKeys is true and allowDots in undefined
+ok 512 with allowDots undefined and encodeDotInKeys true
+# should encode dot in key of object when encodeDotInKeys and allowDots is provided, and nothing else when encodeValuesOnly is provided
+ok 513 should be strictly equal
+ok 514 should be strictly equal
+# throws when `commaRoundTrip` is not a boolean
+ok 515 throws when `commaRoundTrip` is not a boolean
+# throws when `encodeDotInKeys` is not a boolean
+ok 516 should throw
+ok 517 should throw
+ok 518 should throw
+ok 519 should throw
+# adds query prefix
+ok 520 should be strictly equal
+# with query prefix, outputs blank string given an empty object
+ok 521 should be strictly equal
+# stringifies nested falsy values
+ok 522 should be strictly equal
+ok 523 should be strictly equal
+ok 524 should be strictly equal
+# stringifies a nested object
+ok 525 should be strictly equal
+ok 526 should be strictly equal
+# `allowDots` option: stringifies a nested object with dots notation
+ok 527 should be strictly equal
+ok 528 should be strictly equal
+# stringifies an array value
+ok 529 indices => indices
+ok 530 brackets => brackets
+ok 531 comma => comma
+ok 532 comma round trip => comma
+ok 533 default => indices
+# `skipNulls` option
+ok 534 omits nulls when asked
+ok 535 omits nested nulls when asked
+# omits array indices when asked
+ok 536 should be strictly equal
+# omits object key/value pair when value is empty array
+ok 537 should be strictly equal
+# should not omit object key/value pair when value is empty array and when asked
+ok 538 should be strictly equal
+ok 539 should be strictly equal
+ok 540 should be strictly equal
+# should throw when allowEmptyArrays is not of type boolean
+ok 541 should throw
+ok 542 should throw
+ok 543 should throw
+ok 544 should throw
+# allowEmptyArrays + strictNullHandling
+ok 545 should be strictly equal
+# allowEmptyArrays only short-circuits arrays with no own keys
+ok 546 a genuinely empty array is still emitted as `[]`
+ok 547 an own key on an empty array is serialized rather than dropped
+ok 548 the allowEmptyArrays fast path matches the default path when the array has own keys
+ok 549 a cycle through an empty array with an own key is still detected
+# stringifies an array value with one item vs multiple items
+# non-array item
+ok 550 should be strictly equal
+ok 551 should be strictly equal
+ok 552 should be strictly equal
+ok 553 should be strictly equal
+# array with a single item
+ok 554 should be strictly equal
+ok 555 should be strictly equal
+ok 556 should be strictly equal
+ok 557 should be strictly equal
+ok 558 should be strictly equal
+# array with multiple items
+ok 559 should be strictly equal
+ok 560 should be strictly equal
+ok 561 should be strictly equal
+ok 562 should be strictly equal
+ok 563 should be strictly equal
+# array with multiple items with a comma inside
+ok 564 should be strictly equal
+ok 565 should be strictly equal
+ok 566 should be strictly equal
+ok 567 should be strictly equal
+# stringifies a nested array value
+ok 568 should be strictly equal
+ok 569 should be strictly equal
+ok 570 should be strictly equal
+ok 571 should be strictly equal
+# stringifies comma and empty array values
+ok 572 should be strictly equal
+ok 573 should be strictly equal
+ok 574 should be strictly equal
+ok 575 should be strictly equal
+ok 576 should be strictly equal
+ok 577 should be strictly equal
+ok 578 should be strictly equal
+ok 579 should be strictly equal
+ok 580 should be strictly equal
+ok 581 should be strictly equal
+ok 582 should be strictly equal
+ok 583 should be strictly equal
+# stringifies comma and empty non-array values
+ok 584 should be strictly equal
+ok 585 should be strictly equal
+ok 586 should be strictly equal
+ok 587 should be strictly equal
+ok 588 should be strictly equal
+ok 589 should be strictly equal
+ok 590 should be strictly equal
+ok 591 should be strictly equal
+ok 592 should be strictly equal
+ok 593 should be strictly equal
+ok 594 should be strictly equal
+ok 595 should be strictly equal
+# stringifies a nested array value with dots notation
+ok 596 indices: stringifies with dots + indices
+ok 597 brackets: stringifies with dots + brackets
+ok 598 comma: stringifies with dots + comma
+ok 599 default: stringifies with dots + indices
+# stringifies an object inside an array
+ok 600 indices => indices
+ok 601 repeat => repeat
+ok 602 brackets => brackets
+ok 603 default => indices
+ok 604 indices => indices
+ok 605 repeat => repeat
+ok 606 brackets => brackets
+ok 607 default => indices
+# stringifies an array with mixed objects and primitives
+ok 608 indices => indices
+ok 609 brackets => brackets
+ok 610 brackets => brackets # SKIP TODO: figure out what this should do
+ok 611 default => indices
+# stringifies an object inside an array with dots notation
+ok 612 indices => indices
+ok 613 brackets => brackets
+ok 614 default => indices
+ok 615 indices => indices
+ok 616 brackets => brackets
+ok 617 default => indices
+# does not omit object keys when indices = false
+ok 618 should be strictly equal
+# uses indices notation for arrays when indices=true
+ok 619 should be strictly equal
+# uses indices notation for arrays when no arrayFormat is specified
+ok 620 should be strictly equal
+# uses indices notation for arrays when arrayFormat=indices
+ok 621 should be strictly equal
+# uses repeat notation for arrays when arrayFormat=repeat
+ok 622 should be strictly equal
+# uses brackets notation for arrays when arrayFormat=brackets
+ok 623 should be strictly equal
+# stringifies a complicated object
+ok 624 should be strictly equal
+# stringifies an empty value
+ok 625 should be strictly equal
+ok 626 should be strictly equal
+ok 627 should be strictly equal
+ok 628 should be strictly equal
+ok 629 should be strictly equal
+ok 630 should be strictly equal
+ok 631 should be strictly equal
+# stringifies an empty array in different arrayFormat
+ok 632 should be strictly equal
+ok 633 should be strictly equal
+ok 634 should be strictly equal
+ok 635 should be strictly equal
+ok 636 should be strictly equal
+ok 637 should be strictly equal
+ok 638 should be strictly equal
+ok 639 should be strictly equal
+ok 640 should be strictly equal
+ok 641 should be strictly equal
+ok 642 should be strictly equal
+ok 643 should be strictly equal
+ok 644 should be strictly equal
+ok 645 should be strictly equal
+ok 646 should be strictly equal
+# does not crash on null/undefined entries in arrayFormat=comma with encodeValuesOnly
+ok 647 does not pass a raw null array entry to the encoder
+ok 648 does not pass a raw undefined array entry to the encoder
+ok 649 does not crash on a single-null array
+ok 650 null entry joins as empty, comma stays unencoded under encodeValuesOnly
+ok 651 undefined entry joins as empty, comma stays unencoded under encodeValuesOnly
+ok 652 single-null array stringifies as empty value
+ok 653 strictNullHandling drops the equals sign for a single-null array
+ok 654 skipNulls drops a single-null array entirely
+# stringifies a null object
+ok 655 should be strictly equal
+# returns an empty string for invalid input
+ok 656 should be strictly equal
+ok 657 should be strictly equal
+ok 658 should be strictly equal
+ok 659 should be strictly equal
+# stringifies an object with a null object as a child
+ok 660 should be strictly equal
+# drops keys with a value of undefined
+ok 661 should be strictly equal
+ok 662 should be strictly equal
+ok 663 should be strictly equal
+ok 664 should be strictly equal
+# url encodes values
+ok 665 should be strictly equal
+# stringifies a date
+ok 666 should be strictly equal
+# stringifies the weird object from qs
+ok 667 should be strictly equal
+# skips properties that are part of the object prototype
+ok 668 should be strictly equal
+ok 669 should be strictly equal
+# stringifies boolean values
+ok 670 should be strictly equal
+ok 671 should be strictly equal
+ok 672 should be strictly equal
+ok 673 should be strictly equal
+# stringifies buffer values
+ok 674 should be strictly equal
+ok 675 should be strictly equal
+# stringifies an object using an alternative delimiter
+ok 676 should be strictly equal
+# does not blow up when Buffer global is missing
+ok 677 should be strictly equal
+# does not crash when parsing circular references
+ok 678 cyclic values throw
+ok 679 cyclic values throw
+ok 680 non-cyclic values do not throw
+# non-circular duplicated references can still work
+ok 681 should be strictly equal
+ok 682 should be strictly equal
+ok 683 should be strictly equal
+# selects properties when filter=array
+ok 684 should be strictly equal
+ok 685 should be strictly equal
+ok 686 indices => indices
+ok 687 brackets => brackets
+ok 688 default => indices
+# skips null/undefined entries in filter=array
+ok 689 does not pass a raw undefined filter entry to the encoder
+ok 690 does not pass a raw null filter entry to the encoder
+ok 691 undefined filter entry is skipped, remaining keys are kept
+ok 692 null filter entry is skipped, remaining keys are kept
+ok 693 filter array containing only null yields empty string
+# supports custom representations when filter=function
+ok 694 prefix is empty
+ok 695 should be strictly equal
+ok 696 should be strictly equal
+ok 697 should be strictly equal
+ok 698 should be strictly equal
+# can disable uri encoding
+ok 699 should be strictly equal
+ok 700 should be strictly equal
+ok 701 should be strictly equal
+# can sort the keys
+ok 702 should be strictly equal
+ok 703 should be strictly equal
+# can sort the keys at depth 3 or more too
+ok 704 should be strictly equal
+ok 705 should be strictly equal
+# can stringify with custom encoding
+ok 706 should be strictly equal
+# receives the default encoder as a second argument
+ok 707 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'string'
+ok 708 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'number'
+ok 709 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'string'
+ok 710 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'string'
+ok 711 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'string'
+ok 712 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'boolean'
+ok 713 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'string'
+ok 714 The input matched the regular expression /^(?:string|number|boolean)$/. Input: 'number'
+# receives the default encoder as a second argument
+ok 715 should be strictly equal
+ok 716 should be strictly equal
+# throws error with wrong encoder
+ok 717 should throw
+# can use custom encoder for a buffer object
+ok 718 should be strictly equal
+ok 719 should be strictly equal
+# serializeDate option
+ok 720 default is toISOString
+ok 721 should throw
+ok 722 toISOString works even when method is not locally present
+ok 723 custom serializeDate function called
+ok 724 works with arrayFormat comma
+ok 725 works with arrayFormat comma
+# RFC 1738 serialization
+ok 726 should be strictly equal
+ok 727 should be strictly equal
+ok 728 should be strictly equal
+ok 729 should be strictly equal
+# RFC 3986 spaces serialization
+ok 730 should be strictly equal
+ok 731 should be strictly equal
+ok 732 should be strictly equal
+# Backward compatibility to RFC 3986
+ok 733 should be strictly equal
+ok 734 should be strictly equal
+# Edge cases and unknown formats
+ok 735 should throw
+ok 736 should throw
+ok 737 should throw
+ok 738 should throw
+ok 739 should throw
+ok 740 should throw
+# encodeValuesOnly
+ok 741 encodeValuesOnly + indices
+ok 742 encodeValuesOnly + brackets
+ok 743 encodeValuesOnly + repeat
+ok 744 no encodeValuesOnly + indices
+ok 745 no encodeValuesOnly + brackets
+ok 746 no encodeValuesOnly + repeat
+# encodeValuesOnly - strictNullHandling
+ok 747 should be strictly equal
+# strictNullHandling: applies the formatter to the encoded key (RFC1738)
+ok 748 without: as expected
+ok 749 with: as expected
+# throws if an invalid charset is specified
+ok 750 should throw
+# respects a charset of iso-8859-1
+ok 751 should be strictly equal
+# encodes unrepresentable chars as numeric entities in iso-8859-1 mode
+ok 752 should be strictly equal
+# respects an explicit charset of utf-8 (the default)
+ok 753 should be strictly equal
+# `charsetSentinel` option
+ok 754 adds the right sentinel when instructed to and the charset is utf-8
+ok 755 adds the right sentinel when instructed to and the charset is iso-8859-1
+ok 756 uses the configured delimiter after the sentinel
+# does not mutate the options argument
+ok 757 should be deeply equivalent
+# strictNullHandling works with custom filter
+ok 758 should be strictly equal
+# strictNullHandling works with null serializeDate
+ok 759 should be strictly equal
+# allows for encoding keys and values differently
+ok 760 should be deeply equivalent
+ok 761 this should never happen! type: unknown
+# objects inside arrays
+ok 762 no array, no arrayFormat
+ok 763 no array, bracket
+ok 764 no array, indices
+ok 765 no array, repeat
+ok 766 no array, comma
+ok 767 array, no arrayFormat
+ok 768 array, bracket
+ok 769 array, indices
+ok 770 array, repeat
+ok 771 array, comma # SKIP TODO: figure out what this should do
+# stringifies sparse arrays
+ok 772 should be strictly equal
+ok 773 should be strictly equal
+ok 774 should be strictly equal
+ok 775 should be strictly equal
+ok 776 should be strictly equal
+ok 777 should be strictly equal
+ok 778 should be strictly equal
+ok 779 should be strictly equal
+ok 780 should be strictly equal
+ok 781 should be strictly equal
+ok 782 should be strictly equal
+ok 783 should be strictly equal
+# encodes a very long string
+ok 784 should be strictly equal
+# stringifies empty keys
+# stringifies an object with empty string key with &
+ok 785 test case: &, indices
+ok 786 test case: &, brackets
+ok 787 test case: &, repeat
+# stringifies an object with empty string key with &&
+ok 788 test case: &&, indices
+ok 789 test case: &&, brackets
+ok 790 test case: &&, repeat
+# stringifies an object with empty string key with &=
+ok 791 test case: &=, indices
+ok 792 test case: &=, brackets
+ok 793 test case: &=, repeat
+# stringifies an object with empty string key with &=&
+ok 794 test case: &=&, indices
+ok 795 test case: &=&, brackets
+ok 796 test case: &=&, repeat
+# stringifies an object with empty string key with &=&=
+ok 797 test case: &=&=, indices
+ok 798 test case: &=&=, brackets
+ok 799 test case: &=&=, repeat
+# stringifies an object with empty string key with &=&=&
+ok 800 test case: &=&=&, indices
+ok 801 test case: &=&=&, brackets
+ok 802 test case: &=&=&, repeat
+# stringifies an object with empty string key with =
+ok 803 test case: =, indices
+ok 804 test case: =, brackets
+ok 805 test case: =, repeat
+# stringifies an object with empty string key with =&
+ok 806 test case: =&, indices
+ok 807 test case: =&, brackets
+ok 808 test case: =&, repeat
+# stringifies an object with empty string key with =&&&
+ok 809 test case: =&&&, indices
+ok 810 test case: =&&&, brackets
+ok 811 test case: =&&&, repeat
+# stringifies an object with empty string key with =&=&=&
+ok 812 test case: =&=&=&, indices
+ok 813 test case: =&=&=&, brackets
+ok 814 test case: =&=&=&, repeat
+# stringifies an object with empty string key with =&a[]=b&a[1]=c
+ok 815 test case: =&a[]=b&a[1]=c, indices
+ok 816 test case: =&a[]=b&a[1]=c, brackets
+ok 817 test case: =&a[]=b&a[1]=c, repeat
+# stringifies an object with empty string key with =a
+ok 818 test case: =a, indices
+ok 819 test case: =a, brackets
+ok 820 test case: =a, repeat
+# stringifies an object with empty string key with a==a
+ok 821 test case: a==a, indices
+ok 822 test case: a==a, brackets
+ok 823 test case: a==a, repeat
+# stringifies an object with empty string key with =&a[]=b
+ok 824 test case: =&a[]=b, indices
+ok 825 test case: =&a[]=b, brackets
+ok 826 test case: =&a[]=b, repeat
+# stringifies an object with empty string key with =&a[]=b&a[]=c&a[2]=d
+ok 827 test case: =&a[]=b&a[]=c&a[2]=d, indices
+ok 828 test case: =&a[]=b&a[]=c&a[2]=d, brackets
+ok 829 test case: =&a[]=b&a[]=c&a[2]=d, repeat
+# stringifies an object with empty string key with =a&=b
+ok 830 test case: =a&=b, indices
+ok 831 test case: =a&=b, brackets
+ok 832 test case: =a&=b, repeat
+# stringifies an object with empty string key with =a&foo=b
+ok 833 test case: =a&foo=b, indices
+ok 834 test case: =a&foo=b, brackets
+ok 835 test case: =a&foo=b, repeat
+# stringifies an object with empty string key with a[]=b&a=c&=
+ok 836 test case: a[]=b&a=c&=, indices
+ok 837 test case: a[]=b&a=c&=, brackets
+ok 838 test case: a[]=b&a=c&=, repeat
+# stringifies an object with empty string key with a[]=b&a=c&=
+ok 839 test case: a[]=b&a=c&=, indices
+ok 840 test case: a[]=b&a=c&=, brackets
+ok 841 test case: a[]=b&a=c&=, repeat
+# stringifies an object with empty string key with a[0]=b&a=c&=
+ok 842 test case: a[0]=b&a=c&=, indices
+ok 843 test case: a[0]=b&a=c&=, brackets
+ok 844 test case: a[0]=b&a=c&=, repeat
+# stringifies an object with empty string key with a=b&a[]=c&=
+ok 845 test case: a=b&a[]=c&=, indices
+ok 846 test case: a=b&a[]=c&=, brackets
+ok 847 test case: a=b&a[]=c&=, repeat
+# stringifies an object with empty string key with a=b&a[0]=c&=
+ok 848 test case: a=b&a[0]=c&=, indices
+ok 849 test case: a=b&a[0]=c&=, brackets
+ok 850 test case: a=b&a[0]=c&=, repeat
+# stringifies an object with empty string key with []=a&[]=b& []=1
+ok 851 test case: []=a&[]=b& []=1, indices
+ok 852 test case: []=a&[]=b& []=1, brackets
+ok 853 test case: []=a&[]=b& []=1, repeat
+# stringifies an object with empty string key with [0]=a&[1]=b&a[0]=1&a[1]=2
+ok 854 test case: [0]=a&[1]=b&a[0]=1&a[1]=2, indices
+ok 855 test case: [0]=a&[1]=b&a[0]=1&a[1]=2, brackets
+ok 856 test case: [0]=a&[1]=b&a[0]=1&a[1]=2, repeat
+# stringifies an object with empty string key with [deep]=a&[deep]=2
+ok 857 test case: [deep]=a&[deep]=2, indices
+ok 858 test case: [deep]=a&[deep]=2, brackets
+ok 859 test case: [deep]=a&[deep]=2, repeat
+# stringifies an object with empty string key with %5B0%5D=a&%5B1%5D=b
+ok 860 test case: %5B0%5D=a&%5B1%5D=b, indices
+ok 861 test case: %5B0%5D=a&%5B1%5D=b, brackets
+ok 862 test case: %5B0%5D=a&%5B1%5D=b, repeat
+# edge case with object/arrays
+ok 863 should be deeply equivalent
+ok 864 should be deeply equivalent
+ok 865 should be deeply equivalent
+ok 866 should be deeply equivalent
+# stringifies non-string keys
+ok 867 stringifies correctly
+# round-trips keys containing percent-encoded bracket text
+ok 868 round-trips {"a%5Bb":"c"}
+ok 869 round-trips {"a%5Db":"c"}
+ok 870 round-trips {"a%255Bb":"c"}
+ok 871 round-trips {"a%255Db":"c"}
+ok 872 round-trips {"a":{"b%5Bc":"d"}}
+ok 873 round-trips {"a":{"b%255Bc":"d"}}
+ok 874 round-trips {"a%5B%255Bb":"c"}
+# parses input containing percent-encoded bracket text without mangling
+ok 875 a%25255Bb decodes to a%255Bb, not a%5Bb
+ok 876 a%25255Db decodes to a%255Db, not a%5Db
+ok 877 nested %25255B decodes to %255B inside segment, not %5B
+# limits nesting depth with the `depth` option
+ok 878 the default depth is unlimited and does not alter output
+ok 879 does not throw when nesting is within the depth limit
+ok 880 an explicit Infinity depth is unlimited
+ok 881 a non-number depth is ignored and treated as unlimited
+ok 882 a flat object serializes with a depth of 0
+ok 883 the default depth serializes deeply nested objects without throwing
+ok 884 throws a RangeError when nesting exceeds the depth limit
+ok 885 a depth of 0 throws for any nested object
+ok 886 the thrown value is a RangeError
+ok 887 the RangeError names the exceeded depth
+# merge()
+ok 888 merges true into null
+ok 889 merges null into an array
+ok 890 merges two objects with the same key
+ok 891 merges a standalone and an object into an array
+ok 892 merges a standalone and two objects into an array
+ok 893 merges an object sandwiched by two standalones into an array
+ok 894 should be deeply equivalent
+ok 895 should be deeply equivalent
+ok 896 functions can not be merged into
+ok 897 functions can be merge sources
+# avoids invoking array setters unnecessarily
+ok 898 should be strictly equal
+ok 899 should be strictly equal
+ok 900 should be strictly equal
+ok 901 should be strictly equal
+# with overflow objects (from arrayLimit)
+# merges primitive into overflow object at next index
+ok 902 overflow object is marked
+ok 903 adds primitive at next numeric index
+# merges primitive into regular object with numeric keys normally
+ok 904 plain object is not marked as overflow
+ok 905 adds primitive as key (not at next index)
+# merges primitive into object with non-numeric keys normally
+ok 906 adds primitive as key with value true
+# with strictMerge, wraps object and primitive in array
+ok 907 wraps in array with strictMerge
+# merges overflow object into primitive
+ok 908 overflow object is marked
+ok 909 result is also marked as overflow
+ok 910 creates object with primitive at 0, source values shifted
+# merges overflow object into primitive with plainObjects
+ok 911 overflow object is marked
+ok 912 result is also marked as overflow
+ok 913 creates null-proto object with primitive at 0
+# merges overflow object with multiple values into primitive
+ok 914 overflow object is marked
+ok 915 shifts all source indices by 1
+# merges regular object into primitive as array
+ok 916 creates array with primitive and object
+# merges primitive into array that exceeds arrayLimit
+ok 917 result is marked as overflow
+ok 918 converts to overflow object with primitive appended
+# merges array into primitive that exceeds arrayLimit
+ok 919 result is marked as overflow
+ok 920 converts to overflow object
+# merges primitive into array at the arrayLimit boundary, consistently with combine
+ok 921 result is marked as overflow at the boundary
+ok 922 converts to overflow object instead of a length-2 array
+# merges two arrays that exceed arrayLimit into an overflow object
+ok 923 result is marked as overflow
+ok 924 array-into-array merge enforces arrayLimit like combine
+# throws at the arrayLimit boundary when merging a primitive into an array with throwOnLimitExceeded
+ok 925 throws when the resulting length would exceed arrayLimit
+# throws when merging two arrays past arrayLimit with throwOnLimitExceeded
+ok 926 array-into-array merge throws rather than silently exceeding arrayLimit
+ok 927 uses the plural message when arrayLimit is not 1
+# throws instead of merging primitive into over-limit array when throwOnLimitExceeded is set
+ok 928 throws rather than converting to an overflow object
+ok 929 uses the plural message when arrayLimit is not 1
+# throws instead of merging array into primitive when throwOnLimitExceeded is set
+ok 930 throws rather than converting to an overflow object
+ok 931 uses the plural message when arrayLimit is not 1
+# assign()
+ok 932 returns the target
+ok 933 target and source are merged
+ok 934 source is untouched
+# combine()
+# both arrays
+ok 935 a is not mutated
+ok 936 b is not mutated
+ok 937 a !== combined
+ok 938 b !== combined
+ok 939 combined is a + b
+# one array, one non-array
+ok 940 b is not mutated
+ok 941 aN + b !== aN
+ok 942 aN + b !== a
+ok 943 aN + b !== bN
+ok 944 aN + b !== b
+ok 945 first argument is array-wrapped when not an array
+ok 946 a is not mutated
+ok 947 a + bN !== aN
+ok 948 a + bN !== a
+ok 949 a + bN !== bN
+ok 950 a + bN !== b
+ok 951 second argument is array-wrapped when not an array
+# neither is an array
+ok 952 1 + 2 !== 1
+ok 953 1 + 2 !== 2
+ok 954 both arguments are array-wrapped when not an array
+# with arrayLimit
+# under the limit
+ok 955 returns array when under limit
+ok 956 result is an array
+# exactly at the limit stays as array
+ok 957 stays as array when count equals limit
+ok 958 result is an array
+# over the limit
+ok 959 converts to object when over limit
+ok 960 result is not an array
+# with arrayLimit 1
+ok 961 stays as array when count equals limit
+ok 962 result is an array
+# with arrayLimit 0 converts single element to object
+ok 963 converts to object when count exceeds limit
+ok 964 result is not an array
+# with arrayLimit 0 and two elements converts to object
+ok 965 converts to object when count exceeds limit
+ok 966 result is not an array
+# with plainObjects option
+ok 967 converts to object with null prototype
+ok 968 result has null prototype when plainObjects is true
+# with throwOnLimitExceeded
+# throws when concatenation exceeds the limit
+ok 969 throws instead of converting to an overflow object
+ok 970 throws with the correct count at arrayLimit 0
+# throws when adding to an existing overflow object
+ok 971 initial object is marked as overflow
+ok 972 throws rather than appending to the overflow object
+ok 973 uses the singular message at arrayLimit 1
+# does not throw when within the limit
+ok 974 returns the array unchanged when under the limit
+# with existing overflow object
+# adds to existing overflow object at next index
+ok 975 initial object is marked as overflow
+ok 976 returns the same object (mutated)
+ok 977 adds value at next numeric index
+# does not treat plain object with numeric keys as overflow
+ok 978 plain object is not marked as overflow
+ok 979 concatenates as regular values
+# decode
+ok 980 decodes + to space
+ok 981 decodes a string
+ok 982 decodes a string in iso-8859-1
+# encode
+ok 983 undefined is not a string
+ok 984 null is not a string
+ok 985 empty string returns itself
+ok 986 empty array returns itself
+ok 987 empty arraylike returns itself
+ok 988 encodes parentheses
+ok 989 toStrings and encodes parentheses
+ok 990 encodes in iso-8859-1
+ok 991 encodes a long string
+ok 992 encodes a surrogate pair split across long-string chunks
+ok 993 encodes a surrogate pair split across a later chunk boundary
+ok 994 encodes two surrogate pairs each split across a chunk boundary
+ok 995 a boundary-split surrogate pair round-trips through decodeURIComponent
+ok 996 a lone high surrogate at a chunk boundary encodes the same as mid-chunk
+ok 997 encodes parens normally
+ok 998 does not encode parens in RFC1738
+ok 999 encodes multibyte chars
+ok 1000 encodes lone surrogates
+# symbols
+ok 1001 symbol is encoded
+# isBuffer()
+ok 1002 null is not a buffer
+ok 1003 undefined is not a buffer
+ok 1004 true is not a buffer
+ok 1005 false is not a buffer
+ok 1006 '' is not a buffer
+ok 1007 'abc' is not a buffer
+ok 1008 42 is not a buffer
+ok 1009 0 is not a buffer
+ok 1010 NaN is not a buffer
+ok 1011 {} is not a buffer
+ok 1012 [] is not a buffer
+ok 1013 [Function: fn] is not a buffer
+ok 1014 /a/g is not a buffer
+ok 1015 fake buffer is not a buffer
+ok 1016 SaferBuffer instance is a buffer
+ok 1017 different buffer instances
+ok 1018 another Buffer instance is a buffer
+# isRegExp()
+ok 1019 RegExp is a RegExp
+ok 1020 new RegExp is a RegExp
+ok 1021 Date is not a RegExp
+ok 1022 undefined is not a RegExp
+ok 1023 null is not a RegExp
+ok 1024 true is not a RegExp
+ok 1025 false is not a RegExp
+ok 1026 '' is not a RegExp
+ok 1027 'foo' is not a RegExp
+ok 1028 'a💩c' is not a RegExp
+ok 1029 0 is not a RegExp
+ok 1030 -0 is not a RegExp
+ok 1031 42 is not a RegExp
+ok 1032 Infinity is not a RegExp
+ok 1033 -Infinity is not a RegExp
+ok 1034 -1.3 is not a RegExp
+ok 1035 0.2 is not a RegExp
+ok 1036 1.8 is not a RegExp
+ok 1037 0.3333333333333333 is not a RegExp
+ok 1038 Symbol(Symbol.iterator) is not a RegExp
+ok 1039 Symbol() is not a RegExp
+ok 1040 Symbol(foo) is not a RegExp
+ok 1041 Symbol(undefined) is not a RegExp
+ok 1042 Symbol(registered!) is not a RegExp
+ok 1043 Symbol(IntlLegacyConstructedSymbol) is not a RegExp
+ok 1044 42n is not a RegExp
+ok 1045 0n is not a RegExp
+
+1..1045
+# tests 1045
+# pass  1045
+
+# ok
+

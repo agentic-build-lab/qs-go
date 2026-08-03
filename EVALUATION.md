@@ -36,8 +36,8 @@ Then inspect:
    four original-test SHA-256 values.
 3. `docs/upstream_test_ledger.json` — exact, adapted, and deferred surfaces.
 4. `DECISIONS.md` — the engineering tradeoffs and the scheduler audit.
-5. `bench/methodology.md` — benchmark generations, raw-data policy, and
-   interpretation limits.
+5. `bench/recorded_v2/summary.json` and `bench/methodology.md` - the completed
+   raw-sample record, benchmark generations, and interpretation limits.
 
 ## Frozen-oracle verification
 
@@ -81,7 +81,9 @@ have no Node, cgo, subprocess, or third-party runtime dependency.
 - `672,321 zero differences` means zero observed differences within the
   declared differential corpus; it is not a blanket 100% parity claim.
 - Benchmark observations are host- and session-specific. Historical v1
-  aggregate data and the v2 raw-evidence workflow are kept distinct.
+  aggregates and the completed v2 raw record are kept distinct. The v2 record
+  retains parser regressions and a first-start Go outlier instead of filtering
+  them away.
 - Race instrumentation was unavailable in the recorded portable Windows
   toolchain because cgo was disabled; this is not reported as a passing check.
 - The discovered mismatch was in the developing Go port, not an upstream bug,

@@ -1,0 +1,47 @@
+{
+    "before_correctness":  {
+                               "os_caption":  "Microsoft Windows 11 家庭版",
+                               "os_version":  "10.0.26200",
+                               "os_build_number":  "26200",
+                               "os_architecture":  "64-bit",
+                               "cpu_models":  [
+                                                  "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                              ],
+                               "physical_cores":  24,
+                               "logical_cores":  32,
+                               "total_physical_memory_bytes":  34117476352,
+                               "total_visible_memory_bytes":  34117476352,
+                               "available_physical_memory_bytes":  15510401024,
+                               "observed_at":  "2026-08-03T02:09:11.2540836Z"
+                           },
+    "before_measurement":  {
+                               "os_caption":  "Microsoft Windows 11 家庭版",
+                               "os_version":  "10.0.26200",
+                               "os_build_number":  "26200",
+                               "os_architecture":  "64-bit",
+                               "cpu_models":  [
+                                                  "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                              ],
+                               "physical_cores":  24,
+                               "logical_cores":  32,
+                               "total_physical_memory_bytes":  34117476352,
+                               "total_visible_memory_bytes":  34117476352,
+                               "available_physical_memory_bytes":  15382720512,
+                               "observed_at":  "2026-08-03T02:09:57.2283953Z"
+                           },
+    "after_measurement":  {
+                              "os_caption":  "Microsoft Windows 11 家庭版",
+                              "os_version":  "10.0.26200",
+                              "os_build_number":  "26200",
+                              "os_architecture":  "64-bit",
+                              "cpu_models":  [
+                                                 "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                             ],
+                              "physical_cores":  24,
+                              "logical_cores":  32,
+                              "total_physical_memory_bytes":  34117476352,
+                              "total_visible_memory_bytes":  34117476352,
+                              "available_physical_memory_bytes":  15324770304,
+                              "observed_at":  "2026-08-03T02:10:09.5351804Z"
+                          }
+}

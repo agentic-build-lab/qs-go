@@ -210,26 +210,33 @@ lists JavaScript-only tagged values and callbacks that are not yet covered.
 
 ## Benchmark summary
 
-The historical aggregate record in `bench/results.json` reports a configuration
-of 40 sequential latency batches of 500 iterations and 40 independent cold
-starts per runtime. Compared with Node v24.11.1 on the recorded Windows host:
+The publishable [v2 record](bench/recorded_v2/README.md) retains 40 raw latency
+samples for each of four workloads and 40 independent cold starts per runtime.
+Compared with Node v24.11.1 on the recorded Windows host:
 
-- parse median was broadly at parity; parse p99 was 4.9% to 6.3% slower;
-- stringify median was 39.1% to 53.1% faster;
-- cold-start median was 20.6 ms versus 106.7 ms;
-- externally polled peak Working Set was 29.9 MB versus 78.1 MB.
+- stringify median latency was 40.3% to 60.7% lower;
+- parse median latency was 11.6% to 20.0% higher;
+- cold-start median was 14.91 ms versus 73.29 ms, about 4.9 times faster;
+- externally polled peak Working Set was 35.85 MiB versus 65.91 MiB, 45.6%
+  lower; and
+- the first Go cold start was a retained 384.82 ms outlier, making Go p99 4.83
+  times the Node p99 under the declared p99-equals-maximum rule.
 
-The historical run did not retain individual latency samples, cold-start
-durations, or the Working Set polling series; those values have not been
-reconstructed. A read-only prerequisite and provenance check for the new raw
-evidence runner is available on Windows:
+The record is bound to implementation commit `e81c85b`, the verified upstream
+identity, and the SHA-256 of the 672,321-case differential report. It includes
+the raw sample series, correctness logs, host snapshots, source and artifact
+hashes, normalized child-process environment, and explicit limitations.
+
+The earlier `bench/results.json` aggregate record remains immutable. It did not
+retain individual samples, so none were reconstructed. Run the read-only v2
+prerequisite and provenance check on Windows with:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass `
   -File .\bench\run_benchmark.ps1 -Mode validate
 ```
 
-A new full record uses `-Mode record`, writes a self-contained v2 artifact
-below the ignored `work/` directory, and never overwrites the historical file.
-See `bench/methodology.md` and `bench/results.json` for the exact method,
-aggregate statistics, and limitations.
+A new full record uses `-Mode record`, writes a separate artifact below the
+ignored `work/` directory, and never overwrites either recorded generation.
+See `bench/methodology.md`, `bench/recorded_v2/summary.json`, and
+`bench/results.json` for the exact method, data, and limitations.

@@ -74,15 +74,16 @@ order, while the first Go version retained insertion order. Show
 
 ## 3:00–3:45 — Honest benchmark
 
-Open `bench/results.json` and a compact chart/table:
+Open `bench/recorded_v2/summary.json` and a compact chart/table:
 
-- parse is broadly at parity, with p99 regressions of 4.9%–6.3%;
-- stringify median improves 39.1%–53.1%;
-- cold-start median is 20.6 ms versus 106.7 ms;
-- polled peak Working Set is 29.9 MB versus 78.1 MB.
+- parse median is 11.6% to 20.0% slower;
+- stringify median is 40.3% to 60.7% faster;
+- cold-start median is 14.91 ms versus 73.29 ms, about 4.9 times faster;
+- polled peak Working Set is 35.85 MiB versus 65.91 MiB, 45.6% lower; and
+- a retained 384.82 ms first-start Go outlier makes p99 worse.
 
-State that runs were sequential, host-specific, and peak memory was sampled at
-10 ms intervals.
+State that the 40-sample p99 is the maximum, runs were sequential and
+host-specific, and peak memory was sampled at 10 ms intervals.
 
 ## 3:45–4:20 — Engineering decisions
 
@@ -97,6 +98,6 @@ Scroll `DECISIONS.md` and call out three choices:
 Show `submission_checklist.md`.
 
 > qs-go is a standalone Go port with a typed API, clean build, frozen oracle,
-> over half a million zero-difference comparisons, a fuzzer-discovered fix, and
+> 672,321 zero-difference comparisons, a fuzzer-discovered fix, and
 > an honest benchmark. Every important claim has a command, hash, or ledger
 > entry behind it. Reproduce it.

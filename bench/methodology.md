@@ -143,6 +143,12 @@ work/benchmark_run_<utc>/
 A custom destination is accepted only when it remains below this repository's
 `work/` directory. Existing destinations are never overwritten.
 
+The publishable files from the completed 2026-08-03 record are retained under
+`bench/recorded_v2/`. The record binds implementation commit `e81c85b`, the
+verified upstream identity, and the SHA-256 of `fuzz/report.json`. The complete
+release evidence bundle also retains the two generated executables listed in
+the summary artifact manifest.
+
 ## Interpretation limits
 
 Microbenchmarks are host-, runtime-, scheduler-, and session-specific. The

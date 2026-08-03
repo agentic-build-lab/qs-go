@@ -33,7 +33,7 @@
       lists every known divergence honestly.
 - [x] Historical aggregate benchmark, comparative summary, methodology, and
       missing raw observations are documented without reconstruction.
-- [ ] Fresh v2 benchmark record retains raw latency, cold-start, and Working Set
+- [x] Fresh v2 benchmark record retains raw latency, cold-start, and Working Set
       samples with host and source metadata.
 
 ## Quality and presentation

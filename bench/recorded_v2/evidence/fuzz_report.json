@@ -1,0 +1,15 @@
+{
+  "schema": "qs_go_differential_report/v1",
+  "seed_hex": "0x5153474f",
+  "started_at": "2026-08-02T11:52:30.9241427Z",
+  "finished_at": "2026-08-02T11:53:30.9245534Z",
+  "duration_ms": 60000,
+  "total_cases": 672321,
+  "parse_cases": 336161,
+  "stringify_cases": 336160,
+  "mismatches": 0,
+  "oracle_errors": 0,
+  "go_errors": 0,
+  "upstream_commit": "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+  "upstream_test_tree": "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+}

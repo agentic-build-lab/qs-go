@@ -1,0 +1,460 @@
+{
+    "schema":  "qs_go_comparative_benchmark/v2",
+    "recorded_at":  "2026-08-03T02:09:09.8319202Z",
+    "completed_at":  "2026-08-03T02:10:10.2052570Z",
+    "source":  {
+                   "repository_commit":  "e81c85b2e6cd71bba26ade520ebc27e110d483cd",
+                   "repository_tree_sha1":  "1700a993a37530400f1b517a449abd2ea394c995",
+                   "repository_branch":  "codex/port_mortem_qs_go",
+                   "repository_clean_before_and_after":  true,
+                   "upstream_commit":  "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+                   "upstream_describe":  "v6.15.3-8-g3a890d4",
+                   "upstream_test_tree_sha1":  "bef346f180a38793ec6d47e11f25f88a7eb579ca",
+                   "oracle_manifest_sha256":  "ce1b440e64abd300050ea6aaec053c7b2eb3bc6fc986180e7eaf602a858cd90f",
+                   "differential_fuzz_report":  {
+                                                    "path":  "fuzz/report.json",
+                                                    "sha256":  "5cac853c2abb78a990a6ad8d64bddb51545cddadf182403f5cf74faaf3bc317b",
+                                                    "schema":  "qs_go_differential_report/v1",
+                                                    "seed_hex":  "0x5153474f",
+                                                    "duration_ms":  60000,
+                                                    "total_cases":  672321,
+                                                    "parse_cases":  336161,
+                                                    "stringify_cases":  336160,
+                                                    "upstream_commit":  "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+                                                    "upstream_test_tree":  "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+                                                },
+                   "historical_results_path":  "bench/results.json",
+                   "historical_results_sha256":  "536c4f1f5f6ff3c126e8db63d978b31781e09b02b92a71c6f45027fe3d24ceea",
+                   "files":  [
+                                 {
+                                     "path":  "bench/run_benchmark.ps1",
+                                     "sha256":  "f617721f3352221bee5f4366863c3aa1a57dfefa8b678e5743a049b8965b923b"
+                                 },
+                                 {
+                                     "path":  "bench/original_benchmark.cjs",
+                                     "sha256":  "4591812a5dc83eb11996b8f872632543a27af150a3ed4bd56574e4828ecc432b"
+                                 },
+                                 {
+                                     "path":  "bench/startup_probe.cjs",
+                                     "sha256":  "2fc00a7857bcea1848068735118f947ad529107aab0376ddd050859c10247e99"
+                                 },
+                                 {
+                                     "path":  "cmd/benchmark_qsgo/main.go",
+                                     "sha256":  "5a068aa34a603172091876543061112d472fce918e95ede47ec3d7714e1b92ba"
+                                 },
+                                 {
+                                     "path":  "cmd/qsgo/main.go",
+                                     "sha256":  "f880e46f56258446f4c5a59fab34eae684a2d9fe4ec74ad89537318cd1375b12"
+                                 },
+                                 {
+                                     "path":  "fuzz/report.json",
+                                     "sha256":  "5cac853c2abb78a990a6ad8d64bddb51545cddadf182403f5cf74faaf3bc317b"
+                                 },
+                                 {
+                                     "path":  "go.mod",
+                                     "sha256":  "1866e3e3c79ed5365c3838a4b1b9327854c8f7eed822fa15503dea2b34b5532a"
+                                 },
+                                 {
+                                     "path":  "testdata/oracle/oracle_manifest.json",
+                                     "sha256":  "ce1b440e64abd300050ea6aaec053c7b2eb3bc6fc986180e7eaf602a858cd90f"
+                                 }
+                             ]
+               },
+    "environment":  {
+                        "host_before_correctness":  {
+                                                        "os_caption":  "Microsoft Windows 11 家庭版",
+                                                        "os_version":  "10.0.26200",
+                                                        "os_build_number":  "26200",
+                                                        "os_architecture":  "64-bit",
+                                                        "cpu_models":  [
+                                                                           "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                                                       ],
+                                                        "physical_cores":  24,
+                                                        "logical_cores":  32,
+                                                        "total_physical_memory_bytes":  34117476352,
+                                                        "total_visible_memory_bytes":  34117476352,
+                                                        "available_physical_memory_bytes":  15510401024,
+                                                        "observed_at":  "2026-08-03T02:09:11.2540836Z"
+                                                    },
+                        "host_before_measurement":  {
+                                                        "os_caption":  "Microsoft Windows 11 家庭版",
+                                                        "os_version":  "10.0.26200",
+                                                        "os_build_number":  "26200",
+                                                        "os_architecture":  "64-bit",
+                                                        "cpu_models":  [
+                                                                           "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                                                       ],
+                                                        "physical_cores":  24,
+                                                        "logical_cores":  32,
+                                                        "total_physical_memory_bytes":  34117476352,
+                                                        "total_visible_memory_bytes":  34117476352,
+                                                        "available_physical_memory_bytes":  15382720512,
+                                                        "observed_at":  "2026-08-03T02:09:57.2283953Z"
+                                                    },
+                        "host_after_measurement":  {
+                                                       "os_caption":  "Microsoft Windows 11 家庭版",
+                                                       "os_version":  "10.0.26200",
+                                                       "os_build_number":  "26200",
+                                                       "os_architecture":  "64-bit",
+                                                       "cpu_models":  [
+                                                                          "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                                                      ],
+                                                       "physical_cores":  24,
+                                                       "logical_cores":  32,
+                                                       "total_physical_memory_bytes":  34117476352,
+                                                       "total_visible_memory_bytes":  34117476352,
+                                                       "available_physical_memory_bytes":  15324770304,
+                                                       "observed_at":  "2026-08-03T02:10:09.5351804Z"
+                                                   },
+                        "go_version":  "go version go1.26.5 windows/amd64",
+                        "node_version":  "v24.11.1",
+                        "normalized_benchmark_environment":  {
+                                                                 "node":  {
+                                                                              "NODE_OPTIONS":  null,
+                                                                              "NODE_PATH":  null,
+                                                                              "NODE_V8_COVERAGE":  null,
+                                                                              "NODE_COMPILE_CACHE":  null,
+                                                                              "NODE_DISABLE_COMPILE_CACHE":  null,
+                                                                              "UV_THREADPOOL_SIZE":  "4",
+                                                                              "QSGO_BENCH_UPSTREAM_ROOT":  "verified_checkout_path_not_recorded",
+                                                                              "QSGO_BENCH_UPSTREAM_ROOT_SHA256":  "private_path_identity_check_not_recorded"
+                                                                          },
+                                                                 "go":  {
+                                                                            "GOMAXPROCS":  "32",
+                                                                            "GOGC":  "100",
+                                                                            "GOMEMLIMIT":  "off",
+                                                                            "GODEBUG":  null,
+                                                                            "GOENV":  "off",
+                                                                            "GOWORK":  "off",
+                                                                            "GOFLAGS":  "",
+                                                                            "GOOS":  "windows",
+                                                                            "GOARCH":  "amd64",
+                                                                            "GOAMD64":  "v1",
+                                                                            "GOEXPERIMENT":  ""
+                                                                        },
+                                                                 "null_means_removed_from_child_environment":  true
+                                                             }
+                    },
+    "method":  {
+                   "latency_samples":  40,
+                   "iterations_per_sample":  500,
+                   "startup_samples":  40,
+                   "peak_working_set_poll_interval_ms":  10,
+                   "processes_measured_sequentially":  true,
+                   "measurement_order":  [
+                                             "original_latency",
+                                             "port_latency",
+                                             "original_cold_start",
+                                             "port_cold_start"
+                                         ],
+                   "percentile_index":  "floor((sample_count - 1) * quantile + 0.5)",
+                   "p99_equals_maximum_with_40_samples":  true,
+                   "generated_files_never_replace_historical_results":  true
+               },
+    "correctness":  {
+                        "go_test":  "passed",
+                        "go_vet":  "passed",
+                        "upstream_tape_1045_of_1045":  "passed",
+                        "frozen_oracle_integration":  "passed"
+                    },
+    "runtimes":  {
+                     "original":  {
+                                      "name":  "ljharb/qs",
+                                      "runtime":  "v24.11.1",
+                                      "platform":  "win32",
+                                      "architecture":  "x64",
+                                      "runtime_memory_counters":  {
+                                                                      "rss_before_bytes":  52113408,
+                                                                      "rss_after_bytes":  68497408,
+                                                                      "heap_used_before_bytes":  4921648,
+                                                                      "heap_used_after_bytes":  9723832
+                                                                  },
+                                      "workloads":  {
+                                                        "parse_flat_100":  {
+                                                                               "sample_count":  40,
+                                                                               "iterations_per_sample":  500,
+                                                                               "median_ns_per_op":  71445.8,
+                                                                               "p95_ns_per_op":  77203,
+                                                                               "p99_ns_per_op":  80964.2,
+                                                                               "minimum_ns_per_op":  68431.2,
+                                                                               "maximum_ns_per_op":  80964.2,
+                                                                               "median_operations_per_second":  13996.624,
+                                                                               "checksum":  2000000
+                                                                           },
+                                                        "parse_nested_20":  {
+                                                                                "sample_count":  40,
+                                                                                "iterations_per_sample":  500,
+                                                                                "median_ns_per_op":  27704.6,
+                                                                                "p95_ns_per_op":  30128.8,
+                                                                                "p99_ns_per_op":  32348.4,
+                                                                                "minimum_ns_per_op":  25912.8,
+                                                                                "maximum_ns_per_op":  32348.4,
+                                                                                "median_operations_per_second":  36095.089,
+                                                                                "checksum":  20000
+                                                                            },
+                                                        "stringify_flat_100":  {
+                                                                                   "sample_count":  40,
+                                                                                   "iterations_per_sample":  500,
+                                                                                   "median_ns_per_op":  25104,
+                                                                                   "p95_ns_per_op":  26157.4,
+                                                                                   "p99_ns_per_op":  26961.8,
+                                                                                   "minimum_ns_per_op":  23910,
+                                                                                   "maximum_ns_per_op":  26961.8,
+                                                                                   "median_operations_per_second":  39834.289,
+                                                                                   "checksum":  23580000
+                                                                               },
+                                                        "stringify_nested_20":  {
+                                                                                    "sample_count":  40,
+                                                                                    "iterations_per_sample":  500,
+                                                                                    "median_ns_per_op":  15208.8,
+                                                                                    "p95_ns_per_op":  16248,
+                                                                                    "p99_ns_per_op":  17265.4,
+                                                                                    "minimum_ns_per_op":  14060.4,
+                                                                                    "maximum_ns_per_op":  17265.4,
+                                                                                    "median_operations_per_second":  65751.407,
+                                                                                    "checksum":  12780000
+                                                                                }
+                                                    },
+                                      "startup":  {
+                                                      "sample_count":  40,
+                                                      "median_ms":  73.2933,
+                                                      "p95_ms":  78.6814,
+                                                      "p99_ms":  79.6998,
+                                                      "minimum_ms":  68.8538,
+                                                      "maximum_ms":  79.6998
+                                                  },
+                                      "polled_peak_working_set_bytes":  69111808,
+                                      "os_reported_peak_working_set_bytes":  71720960
+                                  },
+                     "port":  {
+                                  "name":  "qs-go",
+                                  "runtime":  "go1.26.5",
+                                  "platform":  "windows",
+                                  "architecture":  "amd64",
+                                  "runtime_memory_counters":  {
+                                                                  "heap_alloc_before_bytes":  685056,
+                                                                  "heap_alloc_after_bytes":  2737680,
+                                                                  "total_alloc_delta_bytes":  8149984472
+                                                              },
+                                  "workloads":  {
+                                                    "parse_flat_100":  {
+                                                                           "sample_count":  40,
+                                                                           "iterations_per_sample":  500,
+                                                                           "median_ns_per_op":  85747.2,
+                                                                           "p95_ns_per_op":  95031.2,
+                                                                           "p99_ns_per_op":  110799.2,
+                                                                           "minimum_ns_per_op":  76048,
+                                                                           "maximum_ns_per_op":  110799.2,
+                                                                           "median_operations_per_second":  11662.188,
+                                                                           "checksum":  2000000
+                                                                       },
+                                                    "parse_nested_20":  {
+                                                                            "sample_count":  40,
+                                                                            "iterations_per_sample":  500,
+                                                                            "median_ns_per_op":  30925.2,
+                                                                            "p95_ns_per_op":  35516.8,
+                                                                            "p99_ns_per_op":  52146.4,
+                                                                            "minimum_ns_per_op":  27524,
+                                                                            "maximum_ns_per_op":  52146.4,
+                                                                            "median_operations_per_second":  32336.088,
+                                                                            "checksum":  20000
+                                                                        },
+                                                    "stringify_flat_100":  {
+                                                                               "sample_count":  40,
+                                                                               "iterations_per_sample":  500,
+                                                                               "median_ns_per_op":  14997.4,
+                                                                               "p95_ns_per_op":  16479.2,
+                                                                               "p99_ns_per_op":  17107.2,
+                                                                               "minimum_ns_per_op":  12664.8,
+                                                                               "maximum_ns_per_op":  17107.2,
+                                                                               "median_operations_per_second":  66678.224,
+                                                                               "checksum":  23580000
+                                                                           },
+                                                    "stringify_nested_20":  {
+                                                                                "sample_count":  40,
+                                                                                "iterations_per_sample":  500,
+                                                                                "median_ns_per_op":  5983.8,
+                                                                                "p95_ns_per_op":  7033.6,
+                                                                                "p99_ns_per_op":  7586,
+                                                                                "minimum_ns_per_op":  3997.6,
+                                                                                "maximum_ns_per_op":  7586,
+                                                                                "median_operations_per_second":  167117.885,
+                                                                                "checksum":  12780000
+                                                                            }
+                                                },
+                                  "startup":  {
+                                                  "sample_count":  40,
+                                                  "median_ms":  14.9117,
+                                                  "p95_ms":  17.2245,
+                                                  "p99_ms":  384.8232,
+                                                  "minimum_ms":  13.2584,
+                                                  "maximum_ms":  384.8232
+                                              },
+                                  "polled_peak_working_set_bytes":  37588992,
+                                  "os_reported_peak_working_set_bytes":  38039552
+                              }
+                 },
+    "port_vs_original":  {
+                             "negative_change_means_port_is_faster_or_smaller":  true,
+                             "polled_peak_working_set_change_percent":  -45.611332,
+                             "startup_median_ratio":  0.203452,
+                             "startup_p99_ratio":  4.828409,
+                             "workloads":  {
+                                               "parse_flat_100":  {
+                                                                      "median_change_percent":  20.017132,
+                                                                      "p99_change_percent":  36.84962
+                                                                  },
+                                               "parse_nested_20":  {
+                                                                       "median_change_percent":  11.624784,
+                                                                       "p99_change_percent":  61.202409
+                                                                   },
+                                               "stringify_flat_100":  {
+                                                                          "median_change_percent":  -40.258923,
+                                                                          "p99_change_percent":  -36.55023
+                                                                      },
+                                               "stringify_nested_20":  {
+                                                                           "median_change_percent":  -60.655673,
+                                                                           "p99_change_percent":  -56.062414
+                                                                       }
+                                           }
+                         },
+    "artifacts":  [
+                      {
+                          "path":  "artifacts/benchmark_qsgo.exe",
+                          "sha256":  "de2e3bd4241e8e2818375cdc9635a5e3d45d078305d22a481db1eab223e625f1",
+                          "bytes":  3373056
+                      },
+                      {
+                          "path":  "artifacts/qsgo.exe",
+                          "sha256":  "4848f9d249a7b38f6265056dd956f416cd7bb2014cb8df7943099ecf2a549eeb",
+                          "bytes":  3004928
+                      },
+                      {
+                          "path":  "correctness/go_test_stdout.txt",
+                          "sha256":  "9dd4c3aa25d3e6cd6bef7dea5b1e61748703724a5cc5e1942c07362c3f03b2ce",
+                          "bytes":  397
+                      },
+                      {
+                          "path":  "correctness/go_test_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/go_vet_stdout.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/go_vet_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/upstream_test_stdout.txt",
+                          "sha256":  "cabe2c0a4dae5f62accfc804a68cd0545babdfb9d813ce4253bc336f96de02dd",
+                          "bytes":  60053
+                      },
+                      {
+                          "path":  "correctness/upstream_test_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/benchmark_build_stdout.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/benchmark_build_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/qsgo_build_stdout.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "correctness/qsgo_build_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "evidence/fuzz_report.json",
+                          "sha256":  "5cac853c2abb78a990a6ad8d64bddb51545cddadf182403f5cf74faaf3bc317b",
+                          "bytes":  467
+                      },
+                      {
+                          "path":  "raw/original_latency.json",
+                          "sha256":  "ec610ba10266135d207ec3efda960483bda4031efed7dc6813e07c781099fa2e",
+                          "bytes":  4294
+                      },
+                      {
+                          "path":  "raw/original_latency_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "raw/original_working_set.json",
+                          "sha256":  "ac58251cc5c7a59596892266e30ce3a0a6ed9260d345d3ee5e210175099a503d",
+                          "bytes":  28041
+                      },
+                      {
+                          "path":  "raw/port_latency.json",
+                          "sha256":  "492d383ef5a6d5a4a7539e4ece3f30eedcf72d88c249e691f5ce14728b9a9889",
+                          "bytes":  4171
+                      },
+                      {
+                          "path":  "raw/port_latency_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      },
+                      {
+                          "path":  "raw/port_working_set.json",
+                          "sha256":  "85e40adac2e0b6f8acaecc923431297294ce243bd6ceab605a760287705f7fa8",
+                          "bytes":  26516
+                      },
+                      {
+                          "path":  "raw/original_cold_start.json",
+                          "sha256":  "810b8ba5d96878fe9a4a3eadcab0a82abfae24e63d7cf0942bc2a88cf6c0bee2",
+                          "bytes":  8070
+                      },
+                      {
+                          "path":  "raw/port_cold_start.json",
+                          "sha256":  "fc99391cbdbddc48b1af3dbc3602ed3dc324ea16a445d1159ea019da6d119263",
+                          "bytes":  8914
+                      },
+                      {
+                          "path":  "runtime/record_context.json",
+                          "sha256":  "22b3e4c522dbdc5cdaaf6b09b72b26423e9f0683420a4228b5d7ffe8a0e73651",
+                          "bytes":  6620
+                      },
+                      {
+                          "path":  "runtime/host_snapshots.json",
+                          "sha256":  "ca4137cd5fa56438853e4b65c54fa45698f52d530632b40992d7088be07ac813",
+                          "bytes":  2804
+                      },
+                      {
+                          "path":  "correctness/frozen_oracle_stdout.txt",
+                          "sha256":  "57b1ddbb6e800457249bc3c7d94d8b8d1f0c8d785a24e79f5f6cd0949b240b1b",
+                          "bytes":  69
+                      },
+                      {
+                          "path":  "correctness/frozen_oracle_stderr.txt",
+                          "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                          "bytes":  0
+                      }
+                  ],
+    "privacy_guard":  {
+                          "status":  "passed",
+                          "files_scanned_before_summary":  24,
+                          "final_post_write_scan":  "passed_on_successful_completion"
+                      },
+    "limitations":  [
+                        "Microbenchmark results are host-specific and were collected in one sequential session.",
+                        "With 40 samples and the recorded percentile rule, p99 selects the maximum sample.",
+                        "Working Set was sampled externally every 10 ms; short spikes can be missed.",
+                        "Go allocation counters and Node heap counters describe different garbage collectors and are not directly comparable.",
+                        "Correctness evidence is recorded before timing and remains authoritative over benchmark speed."
+                    ]
+}

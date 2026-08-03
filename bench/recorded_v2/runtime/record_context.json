@@ -1,0 +1,102 @@
+{
+    "schema":  "qs_go_benchmark_record_context/v1",
+    "recorded_at":  "2026-08-03T02:09:09.8319202Z",
+    "repository_commit":  "e81c85b2e6cd71bba26ade520ebc27e110d483cd",
+    "repository_tree_sha1":  "1700a993a37530400f1b517a449abd2ea394c995",
+    "repository_branch":  "codex/port_mortem_qs_go",
+    "repository_clean":  true,
+    "upstream_commit":  "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+    "upstream_test_tree_sha1":  "bef346f180a38793ec6d47e11f25f88a7eb579ca",
+    "oracle_manifest_sha256":  "ce1b440e64abd300050ea6aaec053c7b2eb3bc6fc986180e7eaf602a858cd90f",
+    "historical_results_sha256":  "536c4f1f5f6ff3c126e8db63d978b31781e09b02b92a71c6f45027fe3d24ceea",
+    "go_version":  "go version go1.26.5 windows/amd64",
+    "node_version":  "v24.11.1",
+    "host_before_correctness":  {
+                                    "os_caption":  "Microsoft Windows 11 家庭版",
+                                    "os_version":  "10.0.26200",
+                                    "os_build_number":  "26200",
+                                    "os_architecture":  "64-bit",
+                                    "cpu_models":  [
+                                                       "13th Gen Intel(R) Core(TM) i9-13980HX"
+                                                   ],
+                                    "physical_cores":  24,
+                                    "logical_cores":  32,
+                                    "total_physical_memory_bytes":  34117476352,
+                                    "total_visible_memory_bytes":  34117476352,
+                                    "available_physical_memory_bytes":  15510401024,
+                                    "observed_at":  "2026-08-03T02:09:11.2540836Z"
+                                },
+    "normalized_benchmark_environment":  {
+                                             "node":  {
+                                                          "NODE_OPTIONS":  null,
+                                                          "NODE_PATH":  null,
+                                                          "NODE_V8_COVERAGE":  null,
+                                                          "NODE_COMPILE_CACHE":  null,
+                                                          "NODE_DISABLE_COMPILE_CACHE":  null,
+                                                          "UV_THREADPOOL_SIZE":  "4",
+                                                          "QSGO_BENCH_UPSTREAM_ROOT":  "verified_checkout_path_not_recorded",
+                                                          "QSGO_BENCH_UPSTREAM_ROOT_SHA256":  "private_path_identity_check_not_recorded"
+                                                      },
+                                             "go":  {
+                                                        "GOMAXPROCS":  "32",
+                                                        "GOGC":  "100",
+                                                        "GOMEMLIMIT":  "off",
+                                                        "GODEBUG":  null,
+                                                        "GOENV":  "off",
+                                                        "GOWORK":  "off",
+                                                        "GOFLAGS":  "",
+                                                        "GOOS":  "windows",
+                                                        "GOARCH":  "amd64",
+                                                        "GOAMD64":  "v1",
+                                                        "GOEXPERIMENT":  ""
+                                                    },
+                                             "null_means_removed_from_child_environment":  true
+                                         },
+    "differential_fuzz_report":  {
+                                     "path":  "fuzz/report.json",
+                                     "sha256":  "5cac853c2abb78a990a6ad8d64bddb51545cddadf182403f5cf74faaf3bc317b",
+                                     "schema":  "qs_go_differential_report/v1",
+                                     "seed_hex":  "0x5153474f",
+                                     "duration_ms":  60000,
+                                     "total_cases":  672321,
+                                     "parse_cases":  336161,
+                                     "stringify_cases":  336160,
+                                     "upstream_commit":  "3a890d4ecd3deb72a45d90be36f4f8c5970467c7",
+                                     "upstream_test_tree":  "bef346f180a38793ec6d47e11f25f88a7eb579ca"
+                                 },
+    "frozen_oracle_integration_requested":  true,
+    "source_files":  [
+                         {
+                             "path":  "bench/run_benchmark.ps1",
+                             "sha256":  "f617721f3352221bee5f4366863c3aa1a57dfefa8b678e5743a049b8965b923b"
+                         },
+                         {
+                             "path":  "bench/original_benchmark.cjs",
+                             "sha256":  "4591812a5dc83eb11996b8f872632543a27af150a3ed4bd56574e4828ecc432b"
+                         },
+                         {
+                             "path":  "bench/startup_probe.cjs",
+                             "sha256":  "2fc00a7857bcea1848068735118f947ad529107aab0376ddd050859c10247e99"
+                         },
+                         {
+                             "path":  "cmd/benchmark_qsgo/main.go",
+                             "sha256":  "5a068aa34a603172091876543061112d472fce918e95ede47ec3d7714e1b92ba"
+                         },
+                         {
+                             "path":  "cmd/qsgo/main.go",
+                             "sha256":  "f880e46f56258446f4c5a59fab34eae684a2d9fe4ec74ad89537318cd1375b12"
+                         },
+                         {
+                             "path":  "fuzz/report.json",
+                             "sha256":  "5cac853c2abb78a990a6ad8d64bddb51545cddadf182403f5cf74faaf3bc317b"
+                         },
+                         {
+                             "path":  "go.mod",
+                             "sha256":  "1866e3e3c79ed5365c3838a4b1b9327854c8f7eed822fa15503dea2b34b5532a"
+                         },
+                         {
+                             "path":  "testdata/oracle/oracle_manifest.json",
+                             "sha256":  "ce1b440e64abd300050ea6aaec053c7b2eb3bc6fc986180e7eaf602a858cd90f"
+                         }
+                     ]
+}

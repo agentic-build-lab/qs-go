@@ -33,7 +33,10 @@ root, commit, tree, and branch before measurement. It verifies the frozen
 
 The runner performs no package download. Go uses the selected local toolchain
 with `GOTOOLCHAIN=local`, `GOPROXY=off`, and project-local build caches and
-temporary storage.
+temporary storage. Child processes also disable persistent Go environment and
+workspace configuration, fix `GOOS=windows`, `GOARCH=amd64`, and `GOAMD64=v1`,
+and clear Go experiment flags. Node coverage and compile-cache overrides are
+removed before measurement.
 
 Before timing, the runner executes:
 
@@ -63,8 +66,11 @@ A v2 run records:
 - SHA-256 values for the runner, workload sources, binaries, logs, and raw
   result files.
 
-Host name, user name, serial numbers, environment variables, credentials, and
-other personal identifiers are not recorded.
+Host name, user name, serial numbers, unrelated inherited environment values,
+credentials, and other personal identifiers are not recorded. The normalized
+benchmark environment policy is recorded. The local checkout path and its
+path-derived identity hash are used only for in-process verification and are
+rejected by the publishable-evidence privacy guard.
 
 ## Latency workloads
 

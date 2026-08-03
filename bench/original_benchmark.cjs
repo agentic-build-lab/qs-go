@@ -98,7 +98,7 @@ console.log(JSON.stringify({
     runtime: process.version,
     platform: process.platform,
     architecture: process.arch,
-    upstream_root_sha256: upstreamRootSHA256,
+    upstream_identity_verified: true,
     samples: SAMPLE_COUNT,
     iterations_per_sample: ITERATIONS_PER_SAMPLE,
     memory: {

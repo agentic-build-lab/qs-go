@@ -297,6 +297,9 @@ function Assert-PrivacySafeText {
     }
 
     $credential_patterns = @(
+        '(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b',
+        '(?i)\bCookie\s*:\s*\S+',
+        '\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b',
         '(?i)\bgh[pousr]_[A-Za-z0-9_]{20,}\b',
         '(?i)\bgithub_pat_[A-Za-z0-9_]{20,}\b',
         '(?i)\bsk-[A-Za-z0-9_-]{20,}\b',
@@ -317,19 +320,27 @@ function Assert-PrivacySafeText {
 function Assert-PublishableEvidencePrivacy {
     param(
         [Parameter(Mandatory = $true)][string]$OutputRoot,
-        [Parameter(Mandatory = $true)][string]$RepositoryRoot
+        [Parameter(Mandatory = $true)][string]$RepositoryRoot,
+        [string[]]$AdditionalSensitiveValues = @()
     )
 
     $sensitive_values = New-Object 'System.Collections.Generic.List[string]'
     $sensitive_values.Add($RepositoryRoot)
     $sensitive_values.Add($RepositoryRoot.Replace('\', '/'))
+    $sensitive_values.Add($RepositoryRoot.Replace('\', '\\'))
     if (-not [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable('USERPROFILE'))) {
         $profile_path = [Environment]::GetEnvironmentVariable('USERPROFILE')
         $sensitive_values.Add($profile_path)
         $sensitive_values.Add($profile_path.Replace('\', '/'))
+        $sensitive_values.Add($profile_path.Replace('\', '\\'))
     }
     if (-not [string]::IsNullOrWhiteSpace([Environment]::UserName)) {
         $sensitive_values.Add([Environment]::UserName)
+    }
+    foreach ($additional_sensitive_value in $AdditionalSensitiveValues) {
+        if (-not [string]::IsNullOrWhiteSpace($additional_sensitive_value)) {
+            $sensitive_values.Add($additional_sensitive_value)
+        }
     }
 
     $publishable_files = @(Get-ChildItem -LiteralPath $OutputRoot -Recurse -File | Where-Object {
@@ -566,6 +577,9 @@ function Get-NodeBenchmarkEnvironment {
     return @{
         'NODE_OPTIONS' = $null
         'NODE_PATH' = $null
+        'NODE_V8_COVERAGE' = $null
+        'NODE_COMPILE_CACHE' = $null
+        'NODE_DISABLE_COMPILE_CACHE' = $null
         'UV_THREADPOOL_SIZE' = '4'
         'QSGO_BENCH_UPSTREAM_ROOT' = [string]$UpstreamContext.root_path
         'QSGO_BENCH_UPSTREAM_ROOT_SHA256' = [string]$UpstreamContext.root_sha256
@@ -583,7 +597,13 @@ function Get-GoBenchmarkEnvironment {
         'GOGC' = '100'
         'GOMEMLIMIT' = 'off'
         'GODEBUG' = $null
-        'GOFLAGS' = $null
+        'GOENV' = 'off'
+        'GOWORK' = 'off'
+        'GOFLAGS' = ''
+        'GOOS' = 'windows'
+        'GOARCH' = 'amd64'
+        'GOAMD64' = 'v1'
+        'GOEXPERIMENT' = ''
     }
 }
 
@@ -609,16 +629,25 @@ function Get-PublicEnvironmentPolicy {
         node = [pscustomobject][ordered]@{
             NODE_OPTIONS = $null
             NODE_PATH = $null
+            NODE_V8_COVERAGE = $null
+            NODE_COMPILE_CACHE = $null
+            NODE_DISABLE_COMPILE_CACHE = $null
             UV_THREADPOOL_SIZE = '4'
-            QSGO_BENCH_UPSTREAM_ROOT = 'verified_by_sha256'
-            QSGO_BENCH_UPSTREAM_ROOT_SHA256 = [string]$UpstreamContext.root_sha256
+            QSGO_BENCH_UPSTREAM_ROOT = 'verified_checkout_path_not_recorded'
+            QSGO_BENCH_UPSTREAM_ROOT_SHA256 = 'private_path_identity_check_not_recorded'
         }
         go = [pscustomobject][ordered]@{
             GOMAXPROCS = $LogicalCores.ToString([System.Globalization.CultureInfo]::InvariantCulture)
             GOGC = '100'
             GOMEMLIMIT = 'off'
             GODEBUG = $null
-            GOFLAGS = $null
+            GOENV = 'off'
+            GOWORK = 'off'
+            GOFLAGS = ''
+            GOOS = 'windows'
+            GOARCH = 'amd64'
+            GOAMD64 = 'v1'
+            GOEXPERIMENT = ''
         }
         null_means_removed_from_child_environment = $true
     }
@@ -893,6 +922,34 @@ function Invoke-Validation {
     if (-not $privacy_probe_rejected) {
         throw 'The privacy guard failed its deterministic credential probe.'
     }
+    foreach ($privacy_probe_case in @(
+        'judge@example.invalid',
+        'Cookie: session=not_a_real_cookie_value',
+        'eyJhbGciOiJub25lIn0.eyJzdWIiOiJwcm9iZSJ9.c2lnbmF0dXJlX3Byb2Jl'
+    )) {
+        $privacy_probe_rejected = $false
+        try {
+            Assert-PrivacySafeText -Text $privacy_probe_case -Label 'privacy validation probe' -SensitiveValues @($RepositoryRoot)
+        } catch {
+            $privacy_probe_rejected = $true
+        }
+        if (-not $privacy_probe_rejected) {
+            throw 'The privacy guard failed a deterministic email, Cookie, or JWT probe.'
+        }
+    }
+    $escaped_path_probe_rejected = $false
+    try {
+        $escaped_path_probe = ([pscustomobject]@{ path = $RepositoryRoot } | ConvertTo-Json)
+        Assert-PrivacySafeText -Text $escaped_path_probe -Label 'JSON-escaped path validation probe' -SensitiveValues @(
+            $RepositoryRoot,
+            $RepositoryRoot.Replace('\', '\\')
+        )
+    } catch {
+        $escaped_path_probe_rejected = $true
+    }
+    if (-not $escaped_path_probe_rejected) {
+        throw 'The privacy guard failed its deterministic JSON-escaped path probe.'
+    }
 
     $validation_record = [pscustomobject][ordered]@{
         schema = 'qs_go_benchmark_runner_validation/v1'
@@ -904,7 +961,6 @@ function Invoke-Validation {
         repository_clean = $RepositoryContext.clean
         upstream_commit = $UpstreamContext.commit
         upstream_test_tree_sha1 = $UpstreamContext.test_tree_sha1
-        upstream_root_sha256 = $UpstreamContext.root_sha256
         oracle_manifest_sha256 = $UpstreamContext.manifest_sha256
         go_version = Invoke-NativeText -FilePath $GoExecutablePath -Arguments @('version') -WorkingDirectory $RepositoryRoot -Environment $go_runtime_environment
         node_version = Invoke-NativeText -FilePath $NodeExecutablePath -Arguments @('--version') -WorkingDirectory $RepositoryRoot -Environment $node_environment
@@ -977,7 +1033,6 @@ function Invoke-Record {
         repository_clean = $RepositoryContext.clean
         upstream_commit = $UpstreamContext.commit
         upstream_test_tree_sha1 = $UpstreamContext.test_tree_sha1
-        upstream_root_sha256 = $UpstreamContext.root_sha256
         oracle_manifest_sha256 = $UpstreamContext.manifest_sha256
         historical_results_sha256 = $historical_results_hash_before
         go_version = $go_version
@@ -1067,7 +1122,7 @@ function Invoke-Record {
     } catch {
         throw 'A latency benchmark did not emit valid JSON.'
     }
-    if ([string]$original_latency_report.upstream_root_sha256 -ne [string]$UpstreamContext.root_sha256) {
+    if ([bool]$original_latency_report.upstream_identity_verified -ne $true) {
         throw 'The original latency process did not use the verified upstream checkout.'
     }
     $original_workloads = Get-WorkloadSummaries -LatencyReport $original_latency_report -ExpectedSchema 'qs_original_benchmark/v1'
@@ -1158,7 +1213,7 @@ function Invoke-Record {
         $artifact_paths += 'correctness\frozen_oracle_stdout.txt'
         $artifact_paths += 'correctness\frozen_oracle_stderr.txt'
     }
-    $privacy_file_count_before_summary = Assert-PublishableEvidencePrivacy -OutputRoot $BenchmarkOutputRoot -RepositoryRoot $RepositoryRoot
+    $privacy_file_count_before_summary = Assert-PublishableEvidencePrivacy -OutputRoot $BenchmarkOutputRoot -RepositoryRoot $RepositoryRoot -AdditionalSensitiveValues @($UpstreamContext.root_sha256)
     $artifact_records = @($artifact_paths | ForEach-Object { Get-ArtifactRecord -OutputRoot $BenchmarkOutputRoot -RelativePath $_ })
 
     $summary = [pscustomobject][ordered]@{
@@ -1173,7 +1228,6 @@ function Invoke-Record {
             upstream_commit = $UpstreamContext.commit
             upstream_describe = $UpstreamContext.describe
             upstream_test_tree_sha1 = $UpstreamContext.test_tree_sha1
-            upstream_root_sha256 = $UpstreamContext.root_sha256
             oracle_manifest_sha256 = $UpstreamContext.manifest_sha256
             differential_fuzz_report = $fuzz_context
             historical_results_path = 'bench/results.json'
@@ -1240,7 +1294,7 @@ function Invoke-Record {
         privacy_guard = [pscustomobject][ordered]@{
             status = 'passed'
             files_scanned_before_summary = $privacy_file_count_before_summary
-            final_post_write_scan_required = $true
+            final_post_write_scan = 'passed_on_successful_completion'
         }
         limitations = @(
             'Microbenchmark results are host-specific and were collected in one sequential session.',
@@ -1253,15 +1307,24 @@ function Invoke-Record {
 
     $summary_path = Join-Path $BenchmarkOutputRoot 'summary.json'
     $summary_text = ($summary | ConvertTo-Json -Depth 40) + [Environment]::NewLine
+    $summary_user_profile = [Environment]::GetEnvironmentVariable('USERPROFILE')
+    $summary_user_profile_escaped = $(if ([string]::IsNullOrWhiteSpace($summary_user_profile)) {
+        ''
+    } else {
+        $summary_user_profile.Replace('\', '\\')
+    })
     $sensitive_summary_values = @(
         $RepositoryRoot,
         $RepositoryRoot.Replace('\', '/'),
-        [Environment]::GetEnvironmentVariable('USERPROFILE'),
-        [Environment]::UserName
+        $RepositoryRoot.Replace('\', '\\'),
+        $summary_user_profile,
+        $summary_user_profile_escaped,
+        [Environment]::UserName,
+        $UpstreamContext.root_sha256
     )
     Assert-PrivacySafeText -Text $summary_text -Label 'summary.json' -SensitiveValues $sensitive_summary_values
     Write-Utf8Text -Path $summary_path -Text $summary_text
-    [void](Assert-PublishableEvidencePrivacy -OutputRoot $BenchmarkOutputRoot -RepositoryRoot $RepositoryRoot)
+    [void](Assert-PublishableEvidencePrivacy -OutputRoot $BenchmarkOutputRoot -RepositoryRoot $RepositoryRoot -AdditionalSensitiveValues @($UpstreamContext.root_sha256))
     [Console]::Out.WriteLine("Benchmark record completed: $BenchmarkOutputRoot")
 }
 
